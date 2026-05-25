@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Zen+Antique&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+    /* ── Japanese Palette ── */
+    --bg:            #12192b;          /* sumi ink */
+    --card-bg:       #13131f;          /* deep indigo-night */
+    --border:        rgba(200,41,43,0.13);
+    --accent:        #c8292b;          /* torii crimson */
+    --accent2:       #e05555;          /* lighter crimson */
+    --sakura:        #f4b8c1;          /* cherry blossom pink */
+    --sakura-deep:   #d4788a;          /* deeper petal */
+    --cream:         #fdf0f0;          /* washi paper */
+    --navy:          #2d2d4e;          /* indigo-night */
+    --blue:          #4a6fa5;          /* asagi blue */
+    --text:          #ede8e3;          /* warm washi white */
+    --muted:         #c8bfc8;          /* faded ink */
+    --done:          #5a9e6f;          /* matcha */
+    --gold:          #c9a84c;          /* kinsho gold */
+    
+    /* ── Wave pattern as bg image ── */
+    --wave-svg: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 Q15 10 30 30 Q45 50 60 30' fill='none' stroke='rgba(200,41,43,0.18)' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    background: var(--bg);
+    background-image: var(--wave-svg);
+    background-size: 60px 60px;
+    font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* ── top bar ── */
+.topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(14,14,26,0.88);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+}
+/* Torii silhouette accent line at very top */
+.topbar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent) 30%, var(--sakura) 60%, transparent);
+}
+.topbar-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent);
+}
+.topbar-sub {
+    font-size: 0.72rem; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+}
+
+/* ── hero ── */
+.hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 960px; margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+/* Decorative large kanji watermark */
+/* Logo UnB watermark */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 1.3rem; left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    height: 420px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c3/Webysther_20160322_-_Logo_UnB_%28sem_texto%29.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.07;
+    filter: grayscale(40%) brightness(1.4);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+    z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+
+.hero-badge {
+    display: inline-block;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    background: rgba(200,41,43,0.24);
+    color: var(--sakura);
+    border: 1px solid rgba(200,41,43,0.48);
+    padding: 0.3rem 1.1rem; border-radius: 2px;
+    margin-bottom: 1.4rem;
+    position: relative;
+}
+.hero-badge::before, .hero-badge::after {
+    content: '〜';
+    color: rgba(200,41,43,0.5);
+    font-size: 0.8em;
+    margin: 0 0.3em;
+}
+
+.hero h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.01em; line-height: 1.2;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--sakura) 55%, var(--accent) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 1rem;
+}
+.hero-eq {
+    font-size: clamp(0.88rem, 1.5vw, 1rem);
+    color: var(--muted); margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+.hero-meta {
+    font-size: 0.75rem; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 0.8rem;
+    letter-spacing: 0.06em;
+}
+
+/* Torii-gate inspired accent bar */
+.accent-bar {
+    width: 48px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--sakura));
+    border-radius: 0; margin: 1.4rem auto;
+    position: relative;
+}
+.accent-bar::before, .accent-bar::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    width: 3px; height: 13px;
+    background: var(--accent);
+    border-radius: 0;
+}
+.accent-bar::before { left: 6px; }
+.accent-bar::after  { right: 6px; }
+
+/* ── grid ── */
+.chapters-grid {
+    max-width: 1000px; margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* ── chapter card ── */
+.chapter-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;                 /* sharp, architectural */
+    padding: 1.5rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    position: relative; overflow: hidden;
+}
+/* Corner mark — shoji frame detail */
+.chapter-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 18px; height: 18px;
+    border-right: 2px solid rgba(200,41,43,0.25);
+    border-bottom: 2px solid rgba(200,41,43,0.25);
+    border-radius: 0;
+    transition: border-color 0.18s;
+}
+.chapter-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--sakura));
+    opacity: 0; transition: opacity 0.18s;
+}
+.chapter-card:hover {
+    border-color: rgba(200,41,43,0.45);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(200,41,43,0.08);
+    color: inherit;
+}
+.chapter-card:hover::before  { opacity: 1; }
+.chapter-card:hover::after   { border-color: rgba(200,41,43,0.55); }
+
+/* estado: disponível / em breve / feito */
+.chapter-card.available  { cursor: pointer; }
+.chapter-card.soon       { cursor: default; opacity: 0.45; pointer-events: none; }
+.chapter-card.done       { border-color: rgba(90,158,111,0.25); }
+.chapter-card.done::before {
+    background: linear-gradient(90deg, var(--done), #3d7a55);
+    opacity: 1;
+}
+
+.card-header-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.95rem;
+}
+.card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.card-num.done-num { color: var(--done); }
+
+.status-pill {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.56rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.18rem 0.6rem; border-radius: 2px;
+}
+.status-pill.available { background: rgba(200,41,43,0.12); color: var(--sakura);  border: 1px solid rgba(200,41,43,0.3); }
+.status-pill.soon      { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid rgba(255,255,255,0.08); }
+.status-pill.done      { background: rgba(90,158,111,0.12);  color: var(--done);  border: 1px solid rgba(90,158,111,0.28); }
+
+.card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(0.98rem, 1.4vw, 1.1rem);
+    font-weight: 700; letter-spacing: 0em;
+    color: var(--text); margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+.card-desc {
+    font-size: clamp(0.75rem, 1.05vw, 0.82rem);
+    color: var(--muted); line-height: 1.6;
+    flex: 1; font-weight: 300;
+}
+.card-footer-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1rem; padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+}
+.card-slides {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.63rem; color: var(--muted);
+    letter-spacing: 0.04em;
+}
+.card-arrow {
+    font-size: 0.8rem; color: var(--accent);
+    opacity: 0; transition: opacity 0.12s, transform 0.12s;
+}
+.chapter-card:hover .card-arrow { opacity: 1; transform: translateX(5px); }
+
+/* ── key equation in hero ── */
+.eq-block {
+    display: inline-block;
+    background: rgba(200,41,43,0.24);
+    border: 1px solid rgba(200,41,43,0.48);
+    border-radius: 2px;
+    padding: 0.55rem 1.3rem;
+    margin: 0.5rem 0;
+    font-size: clamp(0.88rem, 1.4vw, 1rem);
+    color: var(--cream);
+}
+
+/* ── section label ── */
+.section-label {
+    max-width: 1000px; margin: 2.5rem auto 0.8rem;
+    padding: 0 1.5rem;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.66rem; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted);
+}
+.section-label span {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    display: block;
+}
+
+/* ── footer ── */
+.page-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.67rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+}
+.page-footer::before {
+    content: '⛩ ';
+    color: var(--accent);
+    font-size: 0.8rem;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Score-Based Density Modeling via SDEs</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$','$']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<!-- top bar -->
+<div class="topbar">
+  <span class="topbar-title">Score-Based Density Modeling via SDEs</span>
+  <span class="topbar-sub">UnB · 2026 · Jose Daniel Arismendy Tibaduiza</span>
+</div>
+
+<!-- hero -->
+<div class="hero">
+  <div class="hero-badge">Master's Dissertation · Universidade de Brasília</div>
+  <h1>Score-Based Density Modeling<br>through Stochastic Differential Equations</h1>
+  <div class="accent-bar"></div>
+  <div class="eq-block">
+    $d\bar{X}_t = \bigl[f(\bar{X}_t,t) - G(t)^2\,\nabla_x \log p_t(\bar{X}_t)\bigr]\,dt + G(t)\,d\bar{W}_t$
+  </div>
+  <p class="hero-eq mt-2">Reverse-time SDE — Anderson (1982)</p>
+  <p class="hero-meta">
+    Advisors: Prof. Dr. Alberto M. F. Ohashi &nbsp;·&nbsp; Prof. Dr. Francesco Russo<br>
+    Department of Mathematics · January 2026
+  </p>
+</div>
+
+<!-- Theoretical framework -->
+<div class="section-label"><span>Theoretical Framework</span></div>
+<div class="chapters-grid">
+
+  <a class="chapter-card available" href="chapter1.html">
+    <div class="card-header-row">
+      <span class="card-num">Chapter 1</span>
+      <span class="status-pill available">Ready</span>
+    </div>
+    <div class="card-title">Noise and Distributions</div>
+    <div class="card-desc">
+      Parametric density estimation, KL divergence, score function, Fisher divergence,
+      Denoising Score Matching, ESM–DSM equivalence theorem, NCSNs and empirical validation.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">20 slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Chapter 2</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">Score-Based Modeling via SDEs</div>
+    <div class="card-desc">
+      Continuous-time perturbation, Itô SDEs, Fokker–Planck equation,
+      Anderson's time-reversal theorem and the continuous DSM objective.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Chapter 3</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">SDE Families</div>
+    <div class="card-desc">
+      VE, VP, sub-VP and the proposed LV (Linear Variance) SDE family.
+      Transition kernels, conditional scores and reverse SDEs in closed form.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- Applied framework -->
+<div class="section-label"><span>Applied Framework</span></div>
+<div class="chapters-grid">
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Chapter 4</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">Sampling</div>
+    <div class="card-desc">
+      Euler–Maruyama discretization, convergence analysis, probability flow ODE
+      and adaptive integrators (RK45) for all four SDE families.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Chapter 5</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">Implementation &amp; Results</div>
+    <div class="card-desc">
+      U-Net architecture, continuous DSM training protocol,
+      cross-family comparison on MNIST and LV performance analysis.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- Appendices -->
+<div class="section-label"><span>Appendices</span></div>
+<div class="chapters-grid">
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Appendix A</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">Time-Reversal Theorem</div>
+    <div class="card-desc">
+      Full proof of Anderson (1982): regularity hypotheses, martingale representation
+      and weak solution existence via McKean–Vlasov theory.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="chapter-card soon" href="#">
+    <div class="card-header-row">
+      <span class="card-num">Appendix B</span>
+      <span class="status-pill soon">Coming soon</span>
+    </div>
+    <div class="card-title">Fokker–Planck–Kolmogorov Equation</div>
+    <div class="card-desc">
+      Infinitesimal generator, FPK derivation via Itô's formula and integration by parts,
+      backward Kolmogorov equation and explicit verification for the LV family.
+    </div>
+    <div class="card-footer-row">
+      <span class="card-slides">— slides</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<div class="page-footer">
+  Score-Based Density Modeling via SDEs &nbsp;·&nbsp; Universidade de Brasília &nbsp;·&nbsp; 2026
+</div>
+
+</body>
+</html>
