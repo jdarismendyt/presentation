@@ -412,7 +412,7 @@ a { color: var(--accent); text-decoration: none; }
 .tag-cor   { background:#fdf4ff; color:#7e22ce; border:1px solid rgba(126,34,206,0.22);}
 .tag-lemma { background:#fefce8; color:#854d0e; border:1px solid rgba(133,77,14,0.22);}
 .tag-remark{ background:#f8f5f0; color:#5c4a3a; border:1px solid #d5c8be;}
-
+.tag-com { background:#fefce8; color:#73850e; border:1px solid rgba(206, 209, 4, 0.22);}
 /* ── step list ── */
 .step-list { counter-reset: steps; list-style: none; padding-left: 0; margin: 0.4rem 0; }
 .step-list li {
@@ -591,13 +591,13 @@ a { color: var(--accent); text-decoration: none; }
 
 .dense p,
 .dense li {
-  font-size: clamp(0.98rem, 1.32vw, 1.12rem);
+  font-size: clamp(1.15rem, 1.9vw, 1.45rem);
   line-height: 1.42;
   margin-bottom: 0.5rem;
 }
 
 .dense h3 {
-  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
 }
 
 .compact-list {
@@ -683,7 +683,7 @@ a { color: var(--accent); text-decoration: none; }
   overflow-y: hidden;
   max-width: 100%;
   padding: 0.08rem 0;
-  font-size: 96%;
+  font-size: 118%;
 }
 
 .highlight-eq mjx-container[display="true"],
@@ -691,7 +691,7 @@ a { color: var(--accent); text-decoration: none; }
 .box-def mjx-container[display="true"],
 .box-theorem mjx-container[display="true"],
 .proof-block mjx-container[display="true"] {
-  font-size: 86%;
+  font-size: 118%;   /* mismo valor que .dense para uniformidad */
 }
 
 .math-display {
@@ -702,6 +702,7 @@ a { color: var(--accent); text-decoration: none; }
 
 .math-display mjx-container[display="true"] {
   margin: 0.25rem 0 !important;
+  font-size: 118% !important;  /* !important necesario para ganar al .dense */
 }
 
 .math-row {
@@ -725,9 +726,11 @@ a { color: var(--accent); text-decoration: none; }
 .dense .box-def,
 .dense .box-theorem,
 .dense .proof-block {
-  font-size: clamp(0.95rem, 1.24vw, 1.06rem);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
 }
-
+.dense .slide-bottom-chain {
+  font-size: 1.2rem;
+}
 .dense .box-def,
 .dense .box-theorem {
   padding: 0.65rem 0.85rem;

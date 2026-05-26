@@ -58,121 +58,131 @@
 
 <!-- SLIDE 2 -->
 <div class="slide dense">
-  <h2>Unknown Data Law and Generative Objective</h2>
+  <h2>Data Distribution &amp; Parametric Model</h2>
   <div class="accent-line"></div>
 
   <p>
-    Let $p_{\mathrm{data}}(\mathbf{x})$ denote an unknown probability distribution on
-    $\mathbb{R}^{d}$ from which we observe a finite collection of independent samples
-    $\{\mathbf{x}_1,\ldots,\mathbf{x}_N\}$, with
-    $\mathbf{x}_i\overset{\mathrm{i.i.d.}}{\sim}p_{\mathrm{data}}$.
-    The central problem in generative modeling is to construct a parametric model
-    $p_\theta(\mathbf{x})$ that approximates $p_{\mathrm{data}}$ and enables efficient
-    sample generation.
+    Let $p_{\mathrm{data}}(\mathbf{x})$ denote an <strong>unknown probability
+    distribution</strong> on $\mathbb{R}^d$ from which we observe a finite
+    collection of independent samples $\{\mathbf{x}_1,\dots,\mathbf{x}_N\}$.
+    The central problem in generative modeling is to construct a
+    <strong>parametric model</strong> $p_{\boldsymbol{\theta}}(\mathbf{x})$
+    that approximates $p_{\mathrm{data}}$ and enables efficient sample generation.
   </p>
 
-  <div class="math-row">
-    <div>
-      $$
-      p_{\mathrm{data}}:\mathbb{R}^{d}\to[0,\infty),\qquad
-      \int_{\mathbb{R}^{d}}p_{\mathrm{data}}(\mathbf{x})\,d\mathbf{x}=1.
-      $$
-    </div>
-    <div>
-      $$
-      \theta^\star
-      \in
-      \arg\min_{\theta\in\Theta}
-      \mathcal{D}\bigl(p_{\mathrm{data}},p_\theta\bigr),
-      \qquad
-      \mathbf{x}_{\mathrm{new}}\sim p_{\theta^\star}.
-      $$
-    </div>
-  </div>
+  <div class="row g-4 align-items-start">
 
-  <p>
-    This dissertation studies score-based generative modeling via stochastic
-    differential equations. Instead of modeling $p_{\mathrm{data}}$ directly, the
-    paradigm learns the score function
-    $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}(\mathbf{x})$ and uses it to invert a
-    diffusion process that maps data to noise. This circumvents the normalization
-    constant and provides a unified framework with strong theoretical guarantees.
-  </p>
+    <!-- LEFT: p_data -->
+    <div class="col-md-6">
+      <div class="box-def">
+        <span class="tag-pill tag-def">Definition: Data Distribution</span><br>
+        Let $\mathbf{x}_1,\dots,\mathbf{x}_N\in\mathbb{R}^d$ be i.i.d. samples
+        from a probability density
+        $p_{\mathrm{data}}:\mathbb{R}^d\to[0,\infty)$.
+        Let $K\subset\mathbb{R}^d$ be a compact set containing the main mass of
+        $p_{\mathrm{data}}$. We assume
+        $$
+          p_{\mathrm{data}}\in\mathcal{L}^{1}(K)\cap\mathcal{C}^{2}(K),
+          \qquad
+          p_{\mathrm{data}}(\mathbf{x})\to 0
+          \;\text{ as }\;
+          \|\mathbf{x}\|\to\infty.
+        $$
+        We observe only the empirical collection
+        $$
+          \mathbf{x}_1,\ldots,\mathbf{x}_N
+          \overset{\mathrm{i.i.d.}}{\sim}
+          p_{\mathrm{data}}.
+        $$
+      </div>
+    </div>
 
-  <div class="math-display">
-    $$
-    \boxed{
-    p_{\mathrm{data}}
-    \xrightarrow{\text{forward diffusion}}
-    \text{noise}
-    \xrightarrow{\text{reverse dynamics using }\nabla\log p_t}
-    p_{\mathrm{data}}
-    }
-    $$
+    <!-- RIGHT: p_theta -->
+    <div class="col-md-6">
+      <div class="box-def">
+        <span class="tag-pill tag-def">Definition: Parametric Model</span><br>
+        Approximate $p_{\mathrm{data}}(\mathbf{x})$ by a model specified via
+        an unnormalized density $q_{\boldsymbol{\theta}}(\mathbf{x})\ge 0$:
+        $$
+          p_{\boldsymbol{\theta}}(\mathbf{x})
+          =
+          \frac{q_{\boldsymbol{\theta}}(\mathbf{x})}{Z(\boldsymbol{\theta})},
+          \qquad
+          Z(\boldsymbol{\theta})
+          =
+          \int_{\mathbb{R}^d}
+          q_{\boldsymbol{\theta}}(\boldsymbol{\xi})\,d\boldsymbol{\xi},
+        $$
+        with $\boldsymbol{\theta}\in\Theta\subset\mathbb{R}^m$.
+        The log-likelihood decomposes as
+        $$
+          \log p_{\boldsymbol{\theta}}(\mathbf{x})
+          =
+          \log q_{\boldsymbol{\theta}}(\mathbf{x})
+          \;-\;
+          \log Z(\boldsymbol{\theta}).
+        $$
+      </div>
+    </div>
+
   </div>
 </div>
 
+
 <!-- SLIDE 3 -->
 <div class="slide dense">
-  <h2>Parametric Model and KL Principle</h2>
+  <h2>Kullback–Leibler Divergence</h2>
   <div class="accent-line"></div>
 
   <p>
-    Let $K\subset\mathbb{R}^{d}$ be compact and contain the main mass of
-    $p_{\mathrm{data}}$. We assume
-    $p_{\mathrm{data}}\in\mathcal{L}^{1}(K)\cap\mathcal{C}^{2}(K)$ and
-    $p_{\mathrm{data}}(\mathbf{x})\to0$ sufficiently fast as $\|\mathbf{x}\|\to\infty$.
-    A common parametric density is specified by an unnormalized model
-    $q_\theta(\mathbf{x})\ge0$:
+    A natural measure of discrepancy between two probability densities is the
+    <strong>Kullback–Leibler divergence</strong>. Intuitively,
+    $D_{\mathrm{KL}}(p\|q)$ quantifies the expected amount of information
+    (measured in nats) lost when $q$ is used to approximate the true
+    distribution $p$. It arises naturally from the principle of
+    <strong>maximum likelihood</strong>: the parameter
+    $\boldsymbol{\theta}$ that minimizes
+    $D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})$ is exactly
+    the one that maximizes the log-likelihood of the data under
+    $p_{\boldsymbol{\theta}}$.
   </p>
-
-  <div class="math-row">
-    <div>
-      $$
-      p_\theta(\mathbf{x})
-      =
-      \frac{q_\theta(\mathbf{x})}{Z(\theta)},
-      \qquad
-      Z(\theta)
-      =
-      \int_{\mathbb{R}^{d}}
-      q_\theta(\boldsymbol{\xi})\,d\boldsymbol{\xi}.
-      $$
-    </div>
-    <div>
-      $$
-      \log p_\theta(\mathbf{x})
-      =
-      \log q_\theta(\mathbf{x})-\log Z(\theta),
-      \qquad
-      \theta\in\Theta\subset\mathbb{R}^{m}.
-      $$
-    </div>
-  </div>
 
   <div class="box-def">
-    <span class="tag-pill tag-def">Definition: Kullback--Leibler divergence</span>
-    For probability densities $p$ and $q$ on $\mathbb{R}^{d}$ with $p\ll q$,
+    <span class="tag-pill tag-def">Definition: Kullback–Leibler Divergence</span><br>
+    Let $p$ and $q$ be probability densities on $\mathbb{R}^d$ with $p\ll q$.
+    The <strong>Kullback–Leibler divergence</strong> from $q$ to $p$ is defined as
     $$
-    D_{\mathrm{KL}}(p\|q)
-    =
-    \mathbb{E}_{\mathbf{x}\sim p}
-    \left[
-    \log p(\mathbf{x})-\log q(\mathbf{x})
-    \right]\ge0,
+      D_{\mathrm{KL}}(p\|q)
+      =
+      \mathbb{E}_{\mathbf{x}\sim p}\!\left[
+        \log p(\mathbf{x}) - \log q(\mathbf{x})
+      \right].
     $$
-    and $D_{\mathrm{KL}}(p\|q)=0$ iff $p=q$ almost everywhere.
+    It is non-negative and vanishes if and only if $p = q$ almost everywhere.
   </div>
 
+  <h3>Connection to Maximum Likelihood</h3>
   <p>
-    Since
-    $D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_\theta)
-    =
-    \mathbb{E}_{p_{\mathrm{data}}}[\log p_{\mathrm{data}}]
-    -
-    \mathbb{E}_{p_{\mathrm{data}}}[\log p_\theta]$,
-    minimizing KL is equivalent to maximum likelihood.
+    Since $\mathbb{E}_{\mathbf{x}\sim p_{\mathrm{data}}}[\log p_{\mathrm{data}}(\mathbf{x})]$
+    does not depend on $\boldsymbol{\theta}$, minimizing the KL divergence reduces
+    to maximizing the expected log-likelihood:
   </p>
+  <div class="math-display">
+    $$
+      D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})
+      =
+      \underbrace{
+        \mathbb{E}_{p_{\mathrm{data}}}[\log p_{\mathrm{data}}]
+      }_{\text{constant w.r.t.}\;\boldsymbol{\theta}}
+      -\;
+      \mathbb{E}_{p_{\mathrm{data}}}[\log p_{\boldsymbol{\theta}}]
+      \quad\Longrightarrow\quad
+      \min_{\boldsymbol{\theta}}\,D_{\mathrm{KL}}
+      \;\equiv\;
+      \max_{\boldsymbol{\theta}}\;
+      \mathbb{E}_{p_{\mathrm{data}}}[\log p_{\boldsymbol{\theta}}].
+    $$
+  </div>
 </div>
 
 <!-- SLIDE 4 -->
@@ -181,110 +191,198 @@
   <div class="accent-line"></div>
 
   <div class="box-theorem">
-    <span class="tag-pill tag-thm">Theorem</span>
-    For any continuous density $p_{\mathrm{data}}$ on $\mathbb{R}^{d}$ and any
-    $\epsilon>0$, there exists a neural-network-based parametric model $p_\theta$
-    such that
+    <span class="tag-pill tag-thm">Theorem — UAT for Densities</span>
+    For any continuous density $p_{\mathrm{data}}(\mathbf{x})$ on $\mathbb{R}^d$
+    and any $\epsilon>0$, there exists a neural-network-based parametric model
+    $p_{\boldsymbol{\theta}}(\mathbf{x})$ such that
     $$
-    D_{\mathrm{KL}}\bigl(p_{\mathrm{data}}\|p_\theta\bigr)<\epsilon.
+      D_{\mathrm{KL}}\bigl(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}}\bigr)<\epsilon.
     $$
   </div>
 
-  <div class="row g-3">
+  <p>
+    The proof relies on the Universal Approximation Theorem (Cybenko 1989;
+    Hornik 1989): neural networks with a single hidden layer and sigmoidal
+    activations uniformly approximate any continuous function on compact sets.
+    Let $K\subset\mathbb{R}^d$ contain the main mass of $p_{\mathrm{data}}$.
+    For $f(\mathbf{x})=\log p_{\mathrm{data}}(\mathbf{x})$ and any $\epsilon_1>0$,
+    there exists a network $\phi_{\boldsymbol{\theta}}$ with
+  </p>
+
+  $$
+    \left|\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right|
+    < \epsilon_1,
+    \qquad\forall\,\mathbf{x}\in K.
+  $$
+
+  <p>
+    We construct the parametric model via the unnormalized energy
+    $\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))$:
+  </p>
+
+  $$
+    p_{\boldsymbol{\theta}}(\mathbf{x})
+    =
+    \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{Z(\boldsymbol{\theta})},
+    \qquad
+    Z(\boldsymbol{\theta})
+    =
+    \int_K\!\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))\,d\mathbf{x}.
+  $$
+
+  <p>
+    The next step is to bound $D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})$
+    in terms of $\epsilon_1$, which requires controlling both the
+    approximation error and the normalization constant $Z(\boldsymbol{\theta})$.
+  </p>
+</div>
+
+
+<!-- SLIDE 4b — proof continued -->
+<div class="slide dense">
+  <p>
+    Using the decomposition
+    $\log p_{\boldsymbol{\theta}}(\mathbf{x})=\phi_{\boldsymbol{\theta}}(\mathbf{x})-\log Z(\boldsymbol{\theta})$,
+    the KL divergence splits into two controllable terms:
+  </p>
+
+  $$
+    D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})
+    =
+    \underbrace{
+      \mathbb{E}_{p_{\mathrm{data}}}
+      \!\left[\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right]
+    }_{\text{Term I}}
+    +
+    \underbrace{
+      \log Z(\boldsymbol{\theta})
+    }_{\text{Term II}}.
+  $$
+
+  <div class="row g-3 align-items-start" style="margin-top:0.4rem;">
     <div class="col-md-6">
-      <div class="proof-block">
-        <div class="proof-label">Proof</div>
-        By the Universal Approximation Theorem, for
-        $f(\mathbf{x})=\log p_{\mathrm{data}}(\mathbf{x})$ and every
-        $\epsilon_1>0$, there exists a neural network $\phi_\theta$ such that
-        $$
+      <h3>Bounding Term I</h3>
+      <p>
+        By Jensen's inequality and the uniform approximation,
+      </p>
+      $$
         \left|
-        \log p_{\mathrm{data}}(\mathbf{x})-\phi_\theta(\mathbf{x})
-        \right|<\epsilon_1,
-        \qquad \mathbf{x}\in K.
-        $$
-        Define
-        $$
-        p_\theta(\mathbf{x})
-        =
-        \frac{\exp(\phi_\theta(\mathbf{x}))}
-        {Z(\theta)},
-        \qquad
-        Z(\theta)=\int_K\exp(\phi_\theta(\mathbf{x}))\,d\mathbf{x}.
-        $$
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="proof-block">
-        <div class="proof-label">Proof, continued</div>
-        The KL divergence decomposes as
-        $$
-        D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_\theta)
-        =
+          \mathbb{E}_{p_{\mathrm{data}}}
+          \!\left[\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right]
+        \right|
+        \le
         \mathbb{E}_{p_{\mathrm{data}}}
-        [\log p_{\mathrm{data}}-\phi_\theta]+\log Z(\theta).
-        $$
-        Uniform approximation gives the first term $<\epsilon_1$. Moreover,
-        $$
+        \!\left[
+          \left|\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right|
+        \right]
+        < \epsilon_1 \int_K p_{\mathrm{data}}\,d\mathbf{x}
+        \approx \epsilon_1.
+      $$
+    </div>
+
+    <div class="col-md-6">
+      <h3>Bounding Term II</h3>
+      <p>
+        From $|\phi_{\boldsymbol{\theta}}(\mathbf{x})-\log p_{\mathrm{data}}(\mathbf{x})|<\epsilon_1$,
+      </p>
+      $$
         e^{-\epsilon_1}
         <
-        \exp(\phi_\theta-\log p_{\mathrm{data}})
+        \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{p_{\mathrm{data}}(\mathbf{x})}
         <
-        e^{\epsilon_1},
-        $$
-        hence $|\log Z(\theta)|<\epsilon_1$ when $\int_Kp_{\mathrm{data}}\approx1$.
-        Therefore $D_{\mathrm{KL}}<2\epsilon_1=\epsilon$.
-      </div>
+        e^{\epsilon_1}.
+      $$
+      <p>
+        Integrating against $p_{\mathrm{data}}$ and using
+        $\int_K p_{\mathrm{data}}\approx 1$ yields
+        $e^{-\epsilon_1}< Z(\boldsymbol{\theta})< e^{\epsilon_1}$,
+        hence $|\log Z(\boldsymbol{\theta})|<\epsilon_1$.
+      </p>
     </div>
   </div>
+
+  <p style="margin-top:0.5rem;">
+    Combining both estimates,
+    $D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}}) < \epsilon_1+\epsilon_1 = 2\epsilon_1$.
+    Choosing $\epsilon_1=\epsilon/2$ completes the proof. $\quad\square$
+  </p>
+
+  <p>
+    Evaluating $Z(\boldsymbol{\theta})=\int q_{\boldsymbol{\theta}}\,d\boldsymbol{\xi}$
+    is intractable in high dimensions. Hyvärinen (2005) proposed
+    <strong>score matching</strong>: minimize the squared distance between score
+    functions, bypassing $Z(\boldsymbol{\theta})$ entirely.
+  </p>
 </div>
 
 <!-- SLIDE 5 -->
 <div class="slide dense">
-  <h2>Normalization Constant and Score Invariance</h2>
+  <h2>Normalization Problem &amp; Score Function</h2>
   <div class="accent-line"></div>
-
-  <p>
-    The theorem justifies parametric density estimation in principle, but practical
-    learning is obstructed by the partition function. In high dimensions,
-    $Z(\theta)=\int q_\theta(\boldsymbol{\xi})\,d\boldsymbol{\xi}$ is generally
-    analytically intractable and numerically prohibitive.
-  </p>
-
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: score function</span>
-    $$
-    \mathbf{s}_\theta(\mathbf{x})
-    =
-    \nabla_{\mathbf{x}}\log p_\theta(\mathbf{x}).
-    $$
-  </div>
-
-  <div class="math-row">
-    <div>
-      $$
-      \mathbf{s}_\theta(\mathbf{x})
-      =
-      \nabla_{\mathbf{x}}\log q_\theta(\mathbf{x})
-      -
-      \nabla_{\mathbf{x}}\log Z(\theta)
-      =
-      \nabla_{\mathbf{x}}\log q_\theta(\mathbf{x}).
-      $$
+ 
+  <!-- Two boxes side by side -->
+  <div class="row g-3 align-items-stretch">
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Definition: Score Function</span>
+        The score of $p_{\boldsymbol{\theta}}$ is the gradient of its log-density:
+        $$
+          \mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+          =
+          \nabla_{\mathbf{x}}\log p_{\boldsymbol{\theta}}(\mathbf{x}).
+        $$
+        Since $\log Z(\boldsymbol{\theta})$ is constant in $\mathbf{x}$,
+        $$
+          \mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+          =
+          \nabla_{\mathbf{x}}\log q_{\boldsymbol{\theta}}(\mathbf{x})
+          \;\underbrace{-\;\nabla_{\mathbf{x}}\log Z(\boldsymbol{\theta})}_{=\;0}
+          \;=\;
+          \nabla_{\mathbf{x}}\log q_{\boldsymbol{\theta}}(\mathbf{x}).
+        $$
+        The score is <strong>independent of $Z(\boldsymbol{\theta})$</strong>.
+      </div>
     </div>
-    <div>
-      $$
-      \nabla_{\mathbf{x}}\log Z(\theta)=0,
-      \qquad
-      \text{because }Z(\theta)\text{ does not depend on }\mathbf{x}.
-      $$
+ 
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%; background:rgba(255, 252, 237, 0.5); border-left-color:var(--gold);">
+        <span class="tag-pill tag-com">Geometric Interpretation</span>
+        The score $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}$ defines a
+        <strong>vector field</strong> on $\mathbb{R}^d$ pointing toward regions of
+        higher probability, independent of global scaling.
+        <br><br>
+        When data lies on a submanifold $\mathcal{M}\subset\mathbb{R}^d$,
+        the density is degenerate off $\mathcal{M}$ and the score is
+        undefined or explosive near it. Adding <strong>noise perturbations</strong>
+        expands the support to all of $\mathbb{R}^d$, yielding a well-behaved
+        score field everywhere.
+      </div>
     </div>
   </div>
-
-  <div class="figure-triptych">
-    <figure><img src="images/pdata.png" alt="Data density"><figcaption>$p_{\mathrm{data}}$</figcaption></figure>
-    <figure><img src="images/logpdata.png" alt="Log density"><figcaption>$\log p_{\mathrm{data}}$</figcaption></figure>
-    <figure><img src="images/scorepdata.png" alt="Score field"><figcaption>$\nabla\log p_{\mathrm{data}}$</figcaption></figure>
+ 
+  <!-- Three images as horizontal strip at the bottom -->
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-top:0.65rem;">
+    <div style="text-align:center;">
+      <img src="images/pdata.png" alt="Data density"
+           style="width:100%; height:180px; object-fit:contain; border-radius:4px;">
+      <p style="font-size:0.7rem; color:var(--text-muted); margin:0.2rem 0 0;">
+        $p_{\mathrm{data}}(\mathbf{x})$
+      </p>
+    </div>
+    <div style="text-align:center;">
+      <img src="images/logpdata.png" alt="Log density"
+           style="width:100%; height:180px; object-fit:contain; border-radius:4px;">
+      <p style="font-size:0.7rem; color:var(--text-muted); margin:0.2rem 0 0;">
+        $\log p_{\mathrm{data}}(\mathbf{x})$
+      </p>
+    </div>
+    <div style="text-align:center;">
+      <img src="images/scorepdata.png" alt="Score field"
+           style="width:100%; height:180px; object-fit:contain; border-radius:4px;">
+      <p style="font-size:0.7rem; color:var(--text-muted); margin:0.2rem 0 0;">
+        $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}(\mathbf{x})$
+      </p>
+    </div>
   </div>
 </div>
 
