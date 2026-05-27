@@ -184,9 +184,12 @@ function setupDSMInteractive(containerSlide) {
     for (let i = 0; i < W*H; i++) {
       let t = maxD > 1e-8 ? dens[i]/maxD : 0;
       t = Math.pow(t, 0.55);
-      imgData.data[i*4]   = Math.round(248 - 55*t);
-      imgData.data[i*4+1] = Math.round(250 - 80*t);
-      imgData.data[i*4+2] = Math.round(255 - 60*t);
+      const r = Math.round(14  + t * (210 - 14));
+      const g = Math.round(14  + t * (55  - 14));
+      const b = Math.round(26  + t * (55  - 26));
+      imgData.data[i*4]   = r;
+      imgData.data[i*4+1] = g;
+      imgData.data[i*4+2] = b;
       imgData.data[i*4+3] = 255;
     }
     ctx.putImageData(imgData, 0, 0);
@@ -196,8 +199,8 @@ function setupDSMInteractive(containerSlide) {
     const step = RANGE / 14;
     ctx.save();
     ctx.lineWidth = 1.1;
-    ctx.strokeStyle = '#8faabf';
-    ctx.fillStyle   = '#8faabf';
+    ctx.strokeStyle = 'rgba(74, 111, 165, 0.75)';   
+    ctx.fillStyle   = 'rgba(74, 111, 165, 0.75)';
     for (let i = 0; i <= 14; i++) for (let j = 0; j <= 14; j++) {
       const x = DOMAIN[0] + i*step, y = DOMAIN[0] + j*step;
       const [sx, sy] = scoreField(x, y, sigma);
@@ -222,8 +225,8 @@ function setupDSMInteractive(containerSlide) {
     MU.forEach(([x, y], idx) => {
       const [cx, cy] = worldToCanvas(x, y);
       ctx.beginPath(); ctx.arc(cx, cy, 7, 0, 2*Math.PI);
-      ctx.fillStyle = idx === 0 ? '#f0b27a' : '#e28413'; ctx.fill();
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = idx === 0 ? '#f4b8c1' : '#c9a84c';
+      ctx.fillStyle = '#0e0e1a';
       ctx.font = 'bold 11px Inter';
       ctx.fillText(idx === 0 ? 'μ₁' : 'μ₂', cx - 12, cy - 6);
     });
@@ -290,10 +293,10 @@ function setupDSMInteractive(containerSlide) {
 
       // ponto limpo
       ctx.beginPath(); ctx.arc(pxc, pyc, 7, 0, 2*Math.PI);
-      ctx.fillStyle = '#e2b86b'; ctx.fill();
+      ctx.fillStyle = '#c9a84c'; ctx.fill();
       // ponto ruidoso
       ctx.beginPath(); ctx.arc(pxn, pyn, 6, 0, 2*Math.PI);
-      ctx.fillStyle = '#f28b56'; ctx.fill();
+      ctx.fillStyle = '#c8292b'; ctx.fill();
 
       // seta condicional laranja
       const csx = -(x_noisy-x_clean)/(state.sigma**2);
@@ -303,13 +306,13 @@ function setupDSMInteractive(containerSlide) {
         const len = Math.min(50, 10+nc*2);
         const ex  = pxn + (csx/nc)*len, ey = pyn + -(csy/nc)*len;
         ctx.beginPath(); ctx.moveTo(pxn, pyn); ctx.lineTo(ex, ey);
-        ctx.strokeStyle = '#e67e22'; ctx.lineWidth = 2.2; ctx.stroke();
+        ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 2.2; ctx.stroke();
         const ang = Math.atan2(ey-pyn, ex-pxn);
         ctx.beginPath();
         ctx.moveTo(ex, ey);
         ctx.lineTo(ex - 6*Math.cos(ang-0.5), ey - 6*Math.sin(ang-0.5));
         ctx.lineTo(ex - 6*Math.cos(ang+0.5), ey - 6*Math.sin(ang+0.5));
-        ctx.fillStyle = '#e67e22'; ctx.fill();
+        ctx.fillStyle   = '#c9a84c'; ctx.fill();
       }
 
       // seta verdadeira verde
@@ -319,7 +322,7 @@ function setupDSMInteractive(containerSlide) {
         const len = Math.min(40, 8+nt*2.5);
         const ex  = pxn + (tsx/nt)*len, ey = pyn + -(tsy/nt)*len;
         ctx.beginPath(); ctx.moveTo(pxn, pyn); ctx.lineTo(ex, ey);
-        ctx.strokeStyle = '#2ecc71'; ctx.lineWidth = 2;
+        ctx.strokeStyle = '#5a9e6f'; ctx.lineWidth = 2;
         ctx.setLineDash([5, 4]); ctx.stroke(); ctx.setLineDash([]);
       }
     }
@@ -329,7 +332,7 @@ function setupDSMInteractive(containerSlide) {
       for (const p of state.particles) {
         const [cx, cy] = worldToCanvas(p.x, p.y);
         ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2*Math.PI);
-        ctx.fillStyle = '#4a9eda'; ctx.fill();
+        ctx.fillStyle = 'rgba(90, 158, 111, 0.85)'; ctx.fill();
       }
     }
 

@@ -249,105 +249,119 @@ code {
   font-size: 0.8rem;
 }
 
-/* ── Demo interactive ── */
+/* ── DEMO ── */
 .dsm-demo-container {
-  background: rgba(253,248,245,0.9);
+  background: rgba(14, 14, 26, 0.96);          /* sumi ink */
   border-radius: var(--radius-inner);
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-light);
-  box-shadow: 0 2px 12px rgba(14,14,26,0.05);
+  border: 1px solid rgba(200, 41, 43, 0.25);   /* torii crimson rim */
+  box-shadow:
+    0 4px 24px rgba(14,14,26,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
   margin-top: 0.4rem;
   width: 100%;
   overflow-x: auto;
 }
-
+ 
 canvas.dsm-canvas {
   width: 100%;
   max-width: 420px;
   height: auto;
   aspect-ratio: 1 / 1;
-  border-radius: 4px;
-  background: #fdf8f5;
+  border-radius: 6px;
+  background: #0e0e1a;                          /* sumi ink */
   cursor: crosshair;
-  box-shadow: 0 2px 10px rgba(14,14,26,0.07);
+  box-shadow:
+    0 2px 16px rgba(14,14,26,0.5),
+    0 0 0 1px rgba(200,41,43,0.2);
   display: block;
   margin: 0 auto;
 }
-
+ 
 .mode-pill {
-  background: #f5eeee;
-  border: 1px solid var(--border-light);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(232,221,216,0.18);     /* border-light @ 18% */
   border-radius: 2px;
-  padding: 0.25rem 0.9rem;
+  padding: 0.28rem 0.85rem;
   font-size: 0.72rem;
   font-weight: 500;
   transition: 0.09s;
   cursor: pointer;
-  color: var(--text-muted);
+  color: #a09aaa;                               /* faded ink on dark */
   white-space: nowrap;
   font-family: 'Zen Kaku Gothic New', sans-serif;
 }
-.mode-pill:hover { background: #ede0df; }
+.mode-pill:hover {
+  background: rgba(200,41,43,0.12);
+  border-color: rgba(200,41,43,0.35);
+  color: #f4b8c1;                               /* sakura */
+}
 .mode-pill.active {
   background: var(--accent);
   border-color: var(--accent);
   color: white;
   font-weight: 600;
+  box-shadow: 0 0 10px rgba(200,41,43,0.35);
 }
-
+ 
 .sigma-slider { accent-color: var(--accent); }
-
+ 
 .metric-card {
-  background: rgba(253,248,245,0.85);
+  background: rgba(255,255,255,0.05);
   border-radius: var(--radius-inner);
   padding: 6px 10px;
   text-align: center;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(232,221,216,0.12);
   font-size: clamp(0.7rem, 1.05vw, 0.8rem);
+  color: #d4ccd8;                               /* light on dark */
 }
-
+ 
 .btn-demo {
-  background: #f5eeee;
-  border: 1px solid var(--border-light);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(232,221,216,0.18);
   font-size: 0.72rem;
   padding: 5px 14px;
   border-radius: 2px;
-  color: var(--text-dark);
+  color: #c8bcd2;
   cursor: pointer;
   transition: 0.09s;
   font-family: 'Zen Kaku Gothic New', sans-serif;
   font-weight: 500;
 }
-.btn-demo:hover { background: #ede0df; }
+.btn-demo:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(232,221,216,0.35);
+}
 .btn-demo-primary {
   background: var(--accent);
   color: white;
   font-weight: 700;
   border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(200,41,43,0.3);
 }
 .btn-demo-primary:hover {
   background: var(--accent-light);
   border-color: var(--accent-light);
 }
-
+ 
 .legend-dot {
   display: inline-block;
   width: 9px; height: 9px;
   border-radius: 50%;
   margin-right: 4px;
 }
-
-footer {
-  font-size: 0.6rem;
-  color: #9e8e8e;
-  text-align: center;
-  margin-top: 0.9rem;
-  border-top: 1px solid var(--border-light);
-  padding-top: 0.6rem;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.05em;
+ 
+/* Texto de labels y leyendas dentro del container */
+.dsm-demo-container label,
+.dsm-demo-container .small {
+  color: #7a7090 !important;
 }
-
+.dsm-demo-container #sigmaValueLabel {
+  color: var(--accent) !important;
+}
+.dsm-demo-container #metricSigmaVal {
+  color: var(--sakura) !important;
+}
 /* ── Title slide ── */
 .title-slide {
   display: flex;

@@ -51,8 +51,7 @@
   </div>
 
   <footer>
-    Score-Based Density Modeling via SDEs &middot; Jose Daniel Arismendy Tibaduiza &middot; UnB 2026
-    &nbsp;&middot;&nbsp;<a href="index.html">Back to Index</a>
+    <a href="index.html">Back to Index</a>
   </footer>
 </div>
 
@@ -128,7 +127,6 @@
   </div>
 </div>
 
-
 <!-- SLIDE 3 -->
 <div class="slide dense">
   <h2>Kullback–Leibler Divergence</h2>
@@ -167,8 +165,8 @@
     does not depend on $\boldsymbol{\theta}$, minimizing the KL divergence reduces
     to maximizing the expected log-likelihood:
   </p>
-  <div class="math-display">
-    $$
+  <p>
+    \[
       D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})
       =
       \underbrace{
@@ -181,9 +179,10 @@
       \;\equiv\;
       \max_{\boldsymbol{\theta}}\;
       \mathbb{E}_{p_{\mathrm{data}}}[\log p_{\boldsymbol{\theta}}].
-    $$
-  </div>
+    \]
+  </p>
 </div>
+
 
 <!-- SLIDE 4 -->
 <div class="slide dense">
@@ -208,28 +207,28 @@
     For $f(\mathbf{x})=\log p_{\mathrm{data}}(\mathbf{x})$ and any $\epsilon_1>0$,
     there exists a network $\phi_{\boldsymbol{\theta}}$ with
   </p>
-
-  $$
-    \left|\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right|
-    < \epsilon_1,
-    \qquad\forall\,\mathbf{x}\in K.
-  $$
-
+  <p>
+    \[
+      \left|\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right|
+      < \epsilon_1,
+      \qquad\forall\,\mathbf{x}\in K.
+    \]
+  </p>
   <p>
     We construct the parametric model via the unnormalized energy
     $\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))$:
   </p>
-
-  $$
-    p_{\boldsymbol{\theta}}(\mathbf{x})
-    =
-    \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{Z(\boldsymbol{\theta})},
-    \qquad
-    Z(\boldsymbol{\theta})
-    =
-    \int_K\!\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))\,d\mathbf{x}.
-  $$
-
+  <p>
+    \[
+      p_{\boldsymbol{\theta}}(\mathbf{x})
+      =
+      \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{Z(\boldsymbol{\theta})},
+      \qquad
+      Z(\boldsymbol{\theta})
+      =
+      \int_K\!\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))\,d\mathbf{x}.
+    \]
+  </p>
   <p>
     The next step is to bound $D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})$
     in terms of $\epsilon_1$, which requires controlling both the
@@ -245,19 +244,20 @@
     $\log p_{\boldsymbol{\theta}}(\mathbf{x})=\phi_{\boldsymbol{\theta}}(\mathbf{x})-\log Z(\boldsymbol{\theta})$,
     the KL divergence splits into two controllable terms:
   </p>
-
-  $$
-    D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})
-    =
-    \underbrace{
-      \mathbb{E}_{p_{\mathrm{data}}}
-      \!\left[\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right]
-    }_{\text{Term I}}
-    +
-    \underbrace{
-      \log Z(\boldsymbol{\theta})
-    }_{\text{Term II}}.
-  $$
+  <p>
+    \[
+      D_{\mathrm{KL}}(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})
+      =
+      \underbrace{
+        \mathbb{E}_{p_{\mathrm{data}}}
+        \!\left[\log p_{\mathrm{data}}(\mathbf{x})-\phi_{\boldsymbol{\theta}}(\mathbf{x})\right]
+      }_{\text{Term I}}
+      +
+      \underbrace{
+        \log Z(\boldsymbol{\theta})
+      }_{\text{Term II}}.
+    \]
+  </p>
 
   <div class="row g-3 align-items-start" style="margin-top:0.4rem;">
     <div class="col-md-6">
@@ -265,19 +265,21 @@
       <p>
         By Jensen's inequality and the uniform approximation,
       </p>
-      $$
-        \left|
+      <p>
+        \[
+          \left|
+            \mathbb{E}_{p_{\mathrm{data}}}
+            \!\left[\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right]
+          \right|
+          \le
           \mathbb{E}_{p_{\mathrm{data}}}
-          \!\left[\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right]
-        \right|
-        \le
-        \mathbb{E}_{p_{\mathrm{data}}}
-        \!\left[
-          \left|\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right|
-        \right]
-        < \epsilon_1 \int_K p_{\mathrm{data}}\,d\mathbf{x}
-        \approx \epsilon_1.
-      $$
+          \!\left[
+            \left|\log p_{\mathrm{data}}-\phi_{\boldsymbol{\theta}}\right|
+          \right]
+          < \epsilon_1 \int_K p_{\mathrm{data}}\,d\mathbf{x}
+          \approx \epsilon_1.
+        \]
+      </p>
     </div>
 
     <div class="col-md-6">
@@ -285,13 +287,15 @@
       <p>
         From $|\phi_{\boldsymbol{\theta}}(\mathbf{x})-\log p_{\mathrm{data}}(\mathbf{x})|<\epsilon_1$,
       </p>
-      $$
-        e^{-\epsilon_1}
-        <
-        \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{p_{\mathrm{data}}(\mathbf{x})}
-        <
-        e^{\epsilon_1}.
-      $$
+      <p>
+        \[
+          e^{-\epsilon_1}
+          
+          \frac{\exp(\phi_{\boldsymbol{\theta}}(\mathbf{x}))}{p_{\mathrm{data}}(\mathbf{x})}
+          
+          e^{\epsilon_1}.
+        \]
+      </p>
       <p>
         Integrating against $p_{\mathrm{data}}$ and using
         $\int_K p_{\mathrm{data}}\approx 1$ yields
@@ -315,12 +319,12 @@
   </p>
 </div>
 
+
 <!-- SLIDE 5 -->
 <div class="slide dense">
   <h2>Normalization Problem &amp; Score Function</h2>
   <div class="accent-line"></div>
- 
-  <!-- Two boxes side by side -->
+
   <div class="row g-3 align-items-stretch">
     <div class="col-md-6">
       <div class="box-def" style="height:100%;">
@@ -343,7 +347,7 @@
         The score is <strong>independent of $Z(\boldsymbol{\theta})$</strong>.
       </div>
     </div>
- 
+
     <div class="col-md-6">
       <div class="box-def" style="height:100%; background:rgba(255, 252, 237, 0.5); border-left-color:var(--gold);">
         <span class="tag-pill tag-com">Geometric Interpretation</span>
@@ -359,8 +363,7 @@
       </div>
     </div>
   </div>
- 
-  <!-- Three images as horizontal strip at the bottom -->
+
   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-top:0.65rem;">
     <div style="text-align:center;">
       <img src="images/pdata.png" alt="Data density"
@@ -386,58 +389,71 @@
   </div>
 </div>
 
+
 <!-- SLIDE 6 -->
 <div class="slide dense">
-  <h2>Fisher Divergence and Explicit Score Matching</h2>
+  <h2>Fisher Divergence &amp; Explicit Score Matching</h2>
   <div class="accent-line"></div>
 
   <p>
-    The score defines a vector field over $\mathbb{R}^{d}$ pointing toward local
-    increases of log-density. Hence, instead of comparing normalized densities, one
-    may compare their score fields.
+    Since the KL divergence is intractable for unnormalized models, we need an
+    alternative that compares <strong>scores</strong> rather than densities.
+    Because the score is invariant to multiplicative constants, minimizing the
+    Fisher divergence yields a feasible surrogate for maximum likelihood.
   </p>
 
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: Fisher divergence</span>
-    For sufficiently smooth densities $p$ and $q$,
-    $$
-    D_F(p\|q)
-    =
-    \frac12
-    \int_{\mathbb{R}^{d}}
-    p(\mathbf{x})
-    \left\|
-    \nabla_{\mathbf{x}}\log p(\mathbf{x})
-    -
-    \nabla_{\mathbf{x}}\log q(\mathbf{x})
-    \right\|_2^2
-    d\mathbf{x}.
-    $$
+  <div class="row g-3 align-items-stretch">
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Definition: Fisher Divergence</span>
+        For two sufficiently smooth densities $p$ and $q$ on $\mathbb{R}^d$,
+        $$
+          D_F(p\|q)
+          =
+          \frac{1}{2}
+          \int_{\mathbb{R}^d}
+          p(\mathbf{x})
+          \big\|
+            \nabla_{\mathbf{x}}\log p(\mathbf{x})
+            -
+            \nabla_{\mathbf{x}}\log q(\mathbf{x})
+          \big\|^2
+          d\mathbf{x}.
+        $$
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%; background:rgba(255, 254, 237, 0.5); border-left-color:var(--gold);">
+        <span class="tag-pill tag-com">Explicit Score Matching Objective</span>
+        For a target density $p$, define
+        $$
+          E(\boldsymbol{\theta};\,p)
+          \;\triangleq\;
+          \frac{1}{2}\,
+          \mathbb{E}_{\mathbf{x}\sim p}
+          \!\Big[
+            \big\|
+              \mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+              -
+              \nabla_{\mathbf{x}}\log p(\mathbf{x})
+            \big\|_2^2
+          \Big].
+        $$
+        When $p=p_{\mathrm{data}}$, this equals $D_F(p_{\mathrm{data}}\|p_{\boldsymbol{\theta}})$.
+        However, it requires the <strong>unknown true score</strong>
+        $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}$ making it uncomputable in practice.
+      </div>
+    </div>
   </div>
 
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: explicit score matching objective</span>
-    $$
-    E(\theta;p)
-    =
-    \frac12
-    \mathbb{E}_{\mathbf{x}\sim p}
-    \left[
-    \left\|
-    \mathbf{s}_\theta(\mathbf{x})
-    -
-    \nabla_{\mathbf{x}}\log p(\mathbf{x})
-    \right\|_2^2
-    \right].
-    $$
-  </div>
-
-  <p>
-    When $p=p_{\mathrm{data}}$, this is exactly
-    $D_F(p_{\mathrm{data}}\|p_\theta)$. The obstacle is that
-    $\nabla\log p_{\mathrm{data}}$ is unknown.
+  <p style="margin-top:0.6rem;">
+    The key insight of Hyvärinen (2005): integration by parts
+    <strong>eliminates the unknown score</strong>, yielding an equivalent objective
+    that depends only on the model score and its divergence.
   </p>
 </div>
+
 
 <!-- SLIDE 7 -->
 <div class="slide dense">
@@ -445,683 +461,803 @@
   <div class="accent-line"></div>
 
   <div class="box-theorem">
-    <span class="tag-pill tag-prop">Proposition</span>
-    Assume $p$ is a smooth density on $\mathbb{R}^{d}$ such that
-    $p(\mathbf{x})\to0$ and $\|\mathbf{s}_\theta(\mathbf{x})\|\to0$ as
-    $\|\mathbf{x}\|\to\infty$. Then
+    <span class="tag-pill tag-thm">Proposition — Implicit Score Matching</span>
+    Assume $p$ is a smooth density on $\mathbb{R}^d$ such that
+    $p(\mathbf{x})\to0$ and $\|\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\|\to0$
+    as $\|\mathbf{x}\|\to\infty$. Then
     $$
-    E(\theta;p)=I(\theta;p)+C,
+      E(\boldsymbol{\theta};\,p) = I(\boldsymbol{\theta};\,p) + C,
     $$
-    where $C$ is independent of $\theta$ and
+    where $C$ is a constant independent of $\boldsymbol{\theta}$ and
     $$
-    I(\theta;p)
-    =
-    \mathbb{E}_{\mathbf{x}\sim p}
-    \left[
-    \nabla_{\mathbf{x}}\cdot\mathbf{s}_\theta(\mathbf{x})
-    +
-    \frac12\|\mathbf{s}_\theta(\mathbf{x})\|_2^2
-    \right].
+      I(\boldsymbol{\theta};\,p)
+      =
+      \mathbb{E}_{\mathbf{x}\sim p}
+      \!\Big[
+        \nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+        +
+        \frac{1}{2}\|\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\|_2^2
+      \Big].
     $$
   </div>
 
-  <div class="row g-3">
-    <div class="col-md-6">
-      <div class="proof-block">
-        <div class="proof-label">Proof</div>
-        Expanding the square,
-        $$
-        E(\theta;p)
-        =
-        \frac12\mathbb{E}_p[\|\mathbf{s}_\theta\|^2]
-        -
-        \mathbb{E}_p[\mathbf{s}_\theta\cdot\nabla\log p]
-        +
-        \frac12\mathbb{E}_p[\|\nabla\log p\|^2].
-        $$
-        The last term is $C$.
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="proof-block">
-        <div class="proof-label">Proof, continued</div>
-        For the cross term,
-        $$
-        \mathbb{E}_p[\mathbf{s}_\theta\cdot\nabla\log p]
-        =
-        \int\mathbf{s}_\theta(\mathbf{x})\cdot\nabla p(\mathbf{x})\,d\mathbf{x}.
-        $$
-        Integration by parts and the decay hypotheses give
-        $$
-        \int\mathbf{s}_\theta\cdot\nabla p
-        =
-        -\int p(\mathbf{x})\,\nabla\cdot\mathbf{s}_\theta(\mathbf{x})\,d\mathbf{x}.
-        $$
-        Substitution yields the stated $I(\theta;p)$.
-      </div>
-    </div>
-  </div>
+  <p style="margin-top:0.5rem;">
+    Expanding the squared norm in $E(\boldsymbol{\theta};p)$:
+  </p>
+  <p>
+    \[
+      E(\boldsymbol{\theta};\,p)
+      =
+      \frac{1}{2}\mathbb{E}_p\bigl[\|\mathbf{s}_{\boldsymbol{\theta}}\|_2^2\bigr]
+      \;-\;
+      \underbrace{
+        \mathbb{E}_p\bigl[\mathbf{s}_{\boldsymbol{\theta}}\cdot\nabla_{\mathbf{x}}\log p\bigr]
+      }_{\text{cross term}}
+      +
+      \underbrace{
+        \frac{1}{2}\mathbb{E}_p\bigl[\|\nabla_{\mathbf{x}}\log p\|_2^2\bigr]
+      }_{=\ C,\;\text{independent of }\boldsymbol{\theta}}.
+    \]
+  </p>
+  <p>
+    For the cross term, rewrite
+    $\mathbf{s}_{\boldsymbol{\theta}}\cdot\nabla_{\mathbf{x}}\log p
+    = \mathbf{s}_{\boldsymbol{\theta}}\cdot\nabla_{\mathbf{x}}p / p$, so
+  </p>
+  <p>
+    \[
+      \mathbb{E}_p\bigl[\mathbf{s}_{\boldsymbol{\theta}}\cdot\nabla_{\mathbf{x}}\log p\bigr]
+      =
+      \int_{\mathbb{R}^d}
+      \mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\cdot\nabla_{\mathbf{x}} p(\mathbf{x})\,d\mathbf{x}.
+    \]
+  </p>
 </div>
+
 
 <!-- SLIDE 8 -->
 <div class="slide dense">
-  <h2>Why Classical Score Matching Fails Practically</h2>
-  <div class="accent-line"></div>
+  <p>
+    Integrating by parts and using the decay hypotheses (boundary terms vanish):
+  </p>
+  <p>
+    \[
+      \int_{\mathbb{R}^d}
+      \mathbf{s}_{\boldsymbol{\theta}}\cdot\nabla_{\mathbf{x}} p\,d\mathbf{x}
+      =
+      -\int_{\mathbb{R}^d}
+      p(\mathbf{x})\,
+      \bigl(\nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\bigr)
+      \,d\mathbf{x}
+      =
+      -\mathbb{E}_p\bigl[\nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}\bigr].
+    \]
+  </p>
+  <p>
+    Substituting the integration-by-parts result back into the expansion of
+    $E(\boldsymbol{\theta};p)$:
+  </p>
+  <p>
+    \[
+      E(\boldsymbol{\theta};\,p)
+      =
+      \mathbb{E}_p
+      \!\Big[
+        \nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+        +
+        \frac{1}{2}\|\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\|_2^2
+      \Big]
+      + C
+      =
+      I(\boldsymbol{\theta};\,p) + C.
+      \quad\square
+    \]
+  </p>
 
-  <div class="row g-3 align-items-center">
-    <div class="col-md-5">
-      <p>
-        The implicit objective is computable, but two limitations remain. First,
-        evaluating $\nabla_{\mathbf{x}}\cdot\mathbf{s}_\theta(\mathbf{x})$ has cost
-        $O(d)$ and may involve second-order derivatives. Second, the expectation is
-        taken under $p_{\mathrm{data}}$, so regions with low probability mass carry
-        negligible loss weight:
-      </p>
-      <div class="math-display">
+  <p>
+    The objective $I(\boldsymbol{\theta};p)$ is now computable from data
+    without ever evaluating $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}$.
+    Its two terms play <strong>complementary roles</strong>:
+  </p>
+
+  <div class="row g-3 align-items-stretch" style="margin-top:0.2rem;">
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Energy term</span>
         $$
-        I(\theta;p_{\mathrm{data}})
-        =
-        \int p_{\mathrm{data}}(\mathbf{x})
-        \left[
-        \nabla\cdot\mathbf{s}_\theta(\mathbf{x})
-        +\frac12\|\mathbf{s}_\theta(\mathbf{x})\|^2
-        \right]d\mathbf{x}.
+          \frac{1}{2}\mathbb{E}_p\bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\|_2^2\bigr]
         $$
+        Penalizes <strong>artificially steep gradients</strong>: forces the
+        estimated score field to have bounded magnitude, preventing the model
+        from collapsing to a degenerate point mass.
       </div>
-      <p>
-        This is critical for sampling: Langevin dynamics requires a reliable score
-        throughout the ambient space, not only near observed modes.
-      </p>
     </div>
-    <div class="col-md-7 text-center">
-      <img src="images/low_density_score.png" class="img-fluid image-frame xlarge-figure" alt="Low-density score comparison">
-      <p class="caption-small">The estimated score deteriorates away from the modes.</p>
+
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+        <span class="tag-pill tag-thm">Curvature term</span>
+        $$
+          \mathbb{E}_p\bigl[\nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})\bigr]
+        $$
+        Forces the <strong>divergence</strong> of the estimated field to match the
+        local geometry of the log-density: regions where probability mass
+        concentrates must act as attractors (negative divergence).
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- SLIDE 9 -->
 <div class="slide dense">
-  <h2>Denoising Score Matching: Smooth the Distribution</h2>
+  <h2>Practical Limitations of Score Matching</h2>
+  <div class="accent-line"></div>
+
+  <p style="margin-bottom: 0.75rem;">
+    Despite its theoretical foundation, direct score matching encounters two
+    fundamental obstacles that prevent its use in practice.
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+    <div class="box-def" style="background: rgba(252, 251, 235, 0.6); border-left-color: var(--gold);">
+      <span class="tag-pill tag-com" style="background: var(--red-deep);">Problem 1: Computational Cost</span>
+      <p>Evaluating $I(\boldsymbol{\theta};\,p)$ requires computing</p>
+      $$
+        \nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x})
+        = \sum_{i=1}^{d}
+        \frac{\partial [\mathbf{s}_{\boldsymbol{\theta}}]_i}{\partial x_i}(\mathbf{x})
+      $$
+      <p>which costs $O(d)$ backward passes, prohibitive for large $d$.
+      Sliced Score Matching (Song et al., 2020) reduces this via
+      random projections, but a more fundamental limitation remains.</p>
+    </div>
+
+    <div class="box-def" style="background: rgba(252, 251, 235, 0.6); border-left-color: var(--gold);">
+      <span class="tag-pill tag-com" style="background: var(--red-deep);">Problem 2: Low-Density Regions</span>
+      <p>The expectation in $I(\boldsymbol{\theta};\,p_{\mathrm{data}})$ is taken
+      <strong>with respect to $p_{\mathrm{data}}$</strong>. Consequently,
+      low-probability regions contribute negligibly to the loss
+      regardless of how wrong $\mathbf{s}_{\boldsymbol{\theta}}$ is there.</p>
+      <br>
+      <p>The model receives <strong>no informative gradients</strong> where data
+      are sparse. For generative sampling via Langevin dynamics, a reliable
+      score estimate is needed <em>everywhere</em>, not just near the modes.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 10 -->
+<div class="slide dense">
+  <h2>Denoising Score Matching — Setup</h2>
   <div class="accent-line"></div>
 
   <p>
-    DSM replaces the objective on the sparse data distribution with an objective on
-    perturbed observations. Let $\tilde{\mathbf{x}}=\mathbf{x}+\mathbf{z}$, where
-    $\mathbf{z}$ is independent additive noise with density $p_{\mathbf{z}}$.
+    Both problems disappear when we work with a <em>perturbed</em> version of the data.
+    Adding noise $\mathbf{z}$ to $\mathbf{x}$ produces a smoothed distribution with
+    <strong>full support</strong>, eliminating low-density regions and whose score
+    can be approximated by a <strong>tractable conditional</strong> that converges to
+    the true score as $\sigma\to 0$.
   </p>
 
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: perturbed marginal</span>
-    $$
-    q_\sigma(\tilde{\mathbf{x}})
-    =
-    \int_{\mathbb{R}^{d}}
-    p_{\mathrm{data}}(\mathbf{x})\,
-    p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})\,d\mathbf{x}.
-    $$
-  </div>
+  <p style="margin-top: 0.5rem;">
+    Let $(\Omega,\mathcal{F},\mathbb{P})$ be a complete probability space with:
+  </p>
 
-  <div class="math-row">
-    <div>
-      $$
-      q_\sigma
-      =
-      p_{\mathrm{data}}*p_{\mathbf{z}},
-      \qquad
-      \mathrm{supp}(p_{\mathbf{z}})=\mathbb{R}^{d}
-      \Longrightarrow
-      \mathrm{supp}(q_\sigma)=\mathbb{R}^{d}.
-      $$
-    </div>
-    <div>
-      $$
-      \sigma\to0
-      \quad\Longrightarrow\quad
-      q_\sigma\to p_{\mathrm{data}},
-      \qquad
-      \nabla\log q_\sigma
-      \text{ becomes the smoothed score.}
-      $$
-    </div>
-  </div>
+  <ul style="margin: 0.5rem 0 0.5rem 1.2rem;">
+    <li>$\mathbf{x}:\Omega\to\mathbb{R}^d$ — clean data with density $p_{\text{data}}$ w.r.t. $\lambda^d$.</li>
+    <li>$\mathbf{z}:\Omega\to\mathbb{R}^d$ — additive noise with density $p_{\mathbf{z}}$ w.r.t. $\lambda^d$.</li>
+    <li><strong>Independence hypothesis:</strong> $\mathbf{x}\perp\!\!\!\perp\mathbf{z}$, i.e. for all $A,B\in\mathcal{B}(\mathbb{R}^d)$,
+    $\mathbb{P}(\mathbf{x}\in A,\,\mathbf{z}\in B)=\mathbb{P}(\mathbf{x}\in A)\cdot\mathbb{P}(\mathbf{z}\in B)$.</li>
+  </ul>
 
   <p>
-    Thus DSM addresses both limitations: it replaces the divergence term by a
-    conditional denoising target and gives training signal in regions where
-    $p_{\mathrm{data}}$ is negligible.
+    The noisy observation is $\tilde{\mathbf{x}}=\mathbf{x}+\mathbf{z}$. The perturbed distribution
+    $q_\sigma$ is the marginal of the joint $(\tilde{\mathbf{x}},\mathbf{x})$, obtained by
+    integrating out $\mathbf{x}$:
+  </p>
+  <p>
+    \[
+      q_\sigma(\tilde{\mathbf{x}})
+      = \int_{\mathbb{R}^d} p_{\text{data}}(\mathbf{x})\,p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})\,d\mathbf{x}
+      = \mathbb{E}_{\mathbf{x}\sim p_{\text{data}}}\bigl[p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})\bigr].
+    \]
+  </p>
+  <p>
+    When $p_{\mathbf{z}}$ has full support, $q_\sigma$ inherits it, the score
+    $\nabla_{\tilde{\mathbf{x}}}\log q_\sigma$ is well-defined everywhere and informative
+    gradients are guaranteed throughout $\mathbb{R}^d$.
   </p>
 </div>
 
-<!-- SLIDE 10 -->
+
+<!-- SLIDE 11 -->
 <div class="slide dense">
   <h2>Conditional Distribution under Additive Noise</h2>
   <div class="accent-line"></div>
 
   <div class="box-theorem">
-    <span class="tag-pill tag-lemma">Lemma</span>
-    Let $\mathbf{x}$ and $\mathbf{z}$ be independent random variables on
-    $\mathbb{R}^{d}$ with densities $p_{\mathrm{data}}$ and $p_{\mathbf{z}}$,
-    and set $\tilde{\mathbf{x}}=\mathbf{x}+\mathbf{z}$. Then
+    <span class="tag-pill tag-thm">Lemma — Conditional Distribution</span>
+    Under the independence hypothesis, the conditional density of $\tilde{\mathbf{x}}$ given $\mathbf{x}$ is
     $$
-    q(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})
-    $$
-    for $\lambda^{2d}$-almost every
-    $(\mathbf{x},\tilde{\mathbf{x}})\in\mathbb{R}^{2d}$.
-  </div>
-
-  <div class="proof-block">
-    <div class="proof-label">Proof</div>
-    Independence gives
-    $f_{(\mathbf{x},\mathbf{z})}(\mathbf{x}_0,\mathbf{z}_0)
-    =
-    p_{\mathrm{data}}(\mathbf{x}_0)p_{\mathbf{z}}(\mathbf{z}_0)$.
-    Define the affine map
-    $T(\mathbf{x}_0,\mathbf{z}_0)=(\mathbf{x}_0,\mathbf{x}_0+\mathbf{z}_0)$, whose inverse is
-    $T^{-1}(\mathbf{x}_0,\tilde{\mathbf{x}}_0)
-    =
-    (\mathbf{x}_0,\tilde{\mathbf{x}}_0-\mathbf{x}_0)$.
-    Its Jacobian is
-    $$
-    J_{T^{-1}}
-    =
-    \begin{pmatrix}
-    I_d&0\\
-    -I_d&I_d
-    \end{pmatrix},
-    \qquad
-    \det J_{T^{-1}}=1.
-    $$
-    Hence
-    $$
-    f_{(\mathbf{x},\tilde{\mathbf{x}})}
-    (\mathbf{x}_0,\tilde{\mathbf{x}}_0)
-    =
-    p_{\mathrm{data}}(\mathbf{x}_0)
-    p_{\mathbf{z}}(\tilde{\mathbf{x}}_0-\mathbf{x}_0),
-    $$
-    and dividing by $p_{\mathrm{data}}(\mathbf{x}_0)$ gives the conditional density.
-  </div>
-</div>
-
-<!-- SLIDE 11 -->
-<div class="slide dense">
-  <h2>Gaussian Noise and the Conditional Score</h2>
-  <div class="accent-line"></div>
-
-  <div class="box-theorem">
-    <span class="tag-pill tag-cor">Corollary</span>
-    If $\mathbf{z}\sim\mathcal{N}(\mathbf{0},\sigma^2I_d)$, then
-    $$
-    q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    \mathcal{N}(\tilde{\mathbf{x}};\mathbf{x},\sigma^2I_d)
-    =
-    \frac{1}{(2\pi\sigma^2)^{d/2}}
-    \exp\left(
-    -\frac{\|\tilde{\mathbf{x}}-\mathbf{x}\|^2}{2\sigma^2}
-    \right),
-    $$
-    and
-    $$
-    \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    -\frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma^2}.
+      q(\tilde{\mathbf{x}}\mid\mathbf{x}) = p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x}),
+      \qquad \lambda^{2d}\text{-a.e. } (\mathbf{x},\tilde{\mathbf{x}})\in\mathbb{R}^{2d}.
     $$
   </div>
 
-  <div class="proof-block">
-    <div class="proof-label">Proof</div>
-    By the lemma,
-    $q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})$.
-    Taking logarithms,
-    $$
-    \log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    -\frac{d}{2}\log(2\pi\sigma^2)
-    -
-    \frac{\|\tilde{\mathbf{x}}-\mathbf{x}\|^2}{2\sigma^2}.
-    $$
-    The first term is constant in $\tilde{\mathbf{x}}$, and
-    $\nabla_{\tilde{\mathbf{x}}}\|\tilde{\mathbf{x}}-\mathbf{x}\|^2
-    =2(\tilde{\mathbf{x}}-\mathbf{x})$, yielding the stated score.
-  </div>
-
+  <p style="margin-top: 0.6rem;">
+    <em>Proof.</em> Since $\mathbf{x}\perp\!\!\!\perp\mathbf{z}$, the joint density factorizes as
+    $f_{(\mathbf{x},\mathbf{z})}(\mathbf{x}_0,\mathbf{z}_0)=p_{\text{data}}(\mathbf{x}_0)\,p_{\mathbf{z}}(\mathbf{z}_0)$.
+    Define the bijection $T(\mathbf{x}_0,\mathbf{z}_0)=(\mathbf{x}_0,\mathbf{x}_0+\mathbf{z}_0)$
+    with inverse $T^{-1}(\mathbf{x}_0,\tilde{\mathbf{x}}_0)=(\mathbf{x}_0,\tilde{\mathbf{x}}_0-\mathbf{x}_0)$.
+    The Jacobian of $T^{-1}$ is
+  </p>
   <p>
-    More generally,
-    $\nabla_{\tilde{\mathbf{x}}}\log q(\tilde{\mathbf{x}}\mid\mathbf{x})
-    =
-    \nabla_{\mathbf{u}}\log p_{\mathbf{z}}(\mathbf{u})
-    |_{\mathbf{u}=\tilde{\mathbf{x}}-\mathbf{x}}$.
+    \[
+      J_{T^{-1}} = \begin{pmatrix} I_d & 0 \\ -I_d & I_d \end{pmatrix}, \qquad \det(J_{T^{-1}}) = 1,
+    \]
+  </p>
+  <p>
+    so $T^{-1}$ preserves volume. By the change-of-variables theorem,
+  </p>
+  <p>
+    \[
+      f_{(\mathbf{x},\tilde{\mathbf{x}})}(\mathbf{x}_0,\tilde{\mathbf{x}}_0)
+      = p_{\text{data}}(\mathbf{x}_0)\,p_{\mathbf{z}}(\tilde{\mathbf{x}}_0-\mathbf{x}_0).
+    \]
+  </p>
+  <p>
+    Dividing by the marginal $p_{\text{data}}(\mathbf{x}_0)$ yields
+    $q(\tilde{\mathbf{x}}\mid\mathbf{x}=\mathbf{x}_0)=p_{\mathbf{z}}(\tilde{\mathbf{x}}_0-\mathbf{x}_0)$,
+    valid for $\lambda^d$-a.e. $\mathbf{x}_0$. $\square$<br>
+    The conditional is simply the noise density evaluated at the residual $\tilde{\mathbf{x}}-\mathbf{x}$,
+    regardless of $p_{\text{data}}$.
   </p>
 </div>
 
+
 <!-- SLIDE 12 -->
+<div class="slide dense">
+  <h2>Gaussian Noise — Conditional Score</h2>
+  <div class="accent-line"></div>
+
+  <p>The lemma is fully general. For Gaussian noise $\mathbf{z}\sim\mathcal{N}(\mathbf{0},\sigma^2 I_d)$
+  the conditional takes an explicit form and its score admits a closed-form expression, 
+  the analytical engine of DSM.</p>
+
+  <div class="box-theorem" style="margin-top: 0.5rem;">
+    <span class="tag-pill tag-thm">Corollary — Gaussian Noise</span>
+    If $\mathbf{z}\sim\mathcal{N}(\mathbf{0},\sigma^2 I_d)$, then
+    $q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})=\mathcal{N}(\tilde{\mathbf{x}};\,\mathbf{x},\sigma^2 I_d)$
+    and the conditional score satisfies
+    $$
+      \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
+      = -\frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma^2}.
+    $$
+  </div>
+
+  <p style="margin-top: 0.6rem;">
+    <em>Proof.</em> By the lemma, $q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})=p_{\mathbf{z}}(\tilde{\mathbf{x}}-\mathbf{x})$.
+    Substituting the Gaussian density $p_{\mathbf{z}}(\mathbf{z})=(2\pi\sigma^2)^{-d/2}\exp(-\|\mathbf{z}\|^2/2\sigma^2)$
+    at $\mathbf{z}=\tilde{\mathbf{x}}-\mathbf{x}$ gives $q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})=\mathcal{N}(\mathbf{x},\sigma^2 I_d)$.
+    Taking the logarithm,
+    $\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})=\text{const}-\|\tilde{\mathbf{x}}-\mathbf{x}\|^2/2\sigma^2$.
+    Differentiating component-wise in $\tilde{x}_i$ yields $-(\tilde{x}_i-x_i)/\sigma^2$,
+    and collecting all components gives the result. $\square$
+  </p>
+
+  <p style="margin-top: 0.5rem;">
+    The analytical tractability of this expression is the cornerstone of DSM: it provides
+    a closed-form target that does not require knowledge of $p_{\text{data}}$, transforming
+    density estimation into a <strong>supervised denoising regression task</strong>.
+    For a general noise distribution, \(\nabla_{\tilde{\mathbf{x}}}\log q(\tilde{\mathbf{x}}\mid\mathbf{x})
+    =\nabla_{\mathbf{u}}\log p_{\mathbf{z}}(\mathbf{u})\big|_{\mathbf{u}=\tilde{\mathbf{x}}-\mathbf{x}}\).
+  </p>
+</div>
+
+
+<!-- SLIDE 13 -->
 <div class="slide dense">
   <h2>ESM and DSM Objectives on $q_\sigma$</h2>
   <div class="accent-line"></div>
 
   <p>
-    The explicit objective on the smoothed marginal targets the intractable score
-    $\nabla\log q_\sigma$. DSM replaces it by the tractable conditional score.
+    We now formalize the two objectives on the perturbed distribution $q_\sigma$
+    and establish their equivalence.
   </p>
 
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: ESM objective on $q_\sigma$</span>
-    $$
-    E(\theta;q_\sigma)
-    =
-    \frac12
-    \mathbb{E}_{\tilde{\mathbf{x}}\sim q_\sigma}
-    \left[
-    \left\|
-    \mathbf{s}_\theta(\tilde{\mathbf{x}})
-    -
-    \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}})
-    \right\|_2^2
-    \right].
-    $$
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.65rem;">
+    <div class="box-def">
+      <span class="tag-pill tag-def">Explicit Score Matching (ESM)</span>
+      $$
+        E(\boldsymbol{\theta};\,q_\sigma)
+        \triangleq \frac{1}{2}\,\mathbb{E}_{\tilde{\mathbf{x}}\sim q_\sigma}
+        \Bigl[\bigl\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})
+        - \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}})\bigr\|_2^2\Bigr]
+      $$
+      <p style="margin-top: 0.4rem;">Targets the score of the marginal $q_\sigma$.
+      Evaluating $\nabla\log q_\sigma$ requires integrating over $p_{\text{data}}$;  <strong>intractable</strong>.</p>
+    </div>
+
+    <div class="box-def" style="background: rgba(237,244,255,0.5); border-left-color: var(--asagi);">
+      <span class="tag-pill tag-thm">Denoising Score Matching (DSM)</span>
+      $$
+        D(\boldsymbol{\theta};\,q_\sigma)
+        \triangleq \frac{1}{2}\,\mathbb{E}_{\mathbf{x}\sim p_{\text{data}}}
+        \mathbb{E}_{\tilde{\mathbf{x}}\sim q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+        \Bigl[\bigl\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})
+        - \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\bigr\|_2^2\Bigr]
+      $$
+      <p style="margin-top: 0.4rem;">Replaces the marginal score with the conditional score
+      $-(\tilde{\mathbf{x}}-\mathbf{x})/\sigma^2$; <strong>tractable</strong> in closed form.</p>
+    </div>
   </div>
-
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: DSM objective</span>
-    $$
-    D(\theta;q_\sigma)
-    =
-    \frac12
-    \mathbb{E}_{\mathbf{x}\sim p_{\mathrm{data}}}
-    \mathbb{E}_{\tilde{\mathbf{x}}\sim q_\sigma(\cdot\mid\mathbf{x})}
-    \left[
-    \left\|
-    \mathbf{s}_\theta(\tilde{\mathbf{x}})
-    -
-    \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
-    \right\|_2^2
-    \right].
-    $$
-  </div>
-</div>
-
-<!-- SLIDE 13 -->
-<div class="slide dense">
-  <h2>Equivalence between ESM and DSM</h2>
-  <div class="accent-line"></div>
-
-  <div class="box-theorem">
-    <span class="tag-pill tag-thm">Theorem</span>
-    For any $\sigma>0$ and any measurable $\mathbf{s}_\theta$ with
-    $\mathbb{E}_{q_\sigma}[\|\mathbf{s}_\theta\|_2^2]<\infty$, there exists a
-    constant $C$ independent of $\theta$ such that
-    $$
-    E(\theta;q_\sigma)=D(\theta;q_\sigma)+C.
-    $$
-    Consequently,
-    $$
-    \arg\min_\theta E(\theta;q_\sigma)
-    =
-    \arg\min_\theta D(\theta;q_\sigma).
-    $$
-  </div>
-
-  <div class="proof-block">
-    <div class="proof-label">Proof</div>
-    Apply implicit score matching to $q_\sigma$:
-    $$
-    E(\theta;q_\sigma)
-    =
-    \mathbb{E}_{q_\sigma}
-    \left[
-    \nabla_{\tilde{\mathbf{x}}}\cdot\mathbf{s}_\theta(\tilde{\mathbf{x}})
-    +
-    \frac12\|\mathbf{s}_\theta(\tilde{\mathbf{x}})\|^2
-    \right]+C_1.
-    $$
-    Expanding $D(\theta;q_\sigma)$ gives the same quadratic term by total
-    expectation:
-    $$
-    \mathbb{E}_{p_{\mathrm{data}}}
-    \mathbb{E}_{q_\sigma(\cdot\mid\mathbf{x})}
-    [\|\mathbf{s}_\theta\|^2]
-    =
-    \mathbb{E}_{q_\sigma}[\|\mathbf{s}_\theta\|^2].
-    $$
-    For the cross term, use
-    $q_\sigma(\tilde{\mathbf{x}})
-    =
-    \int p_{\mathrm{data}}(\mathbf{x})q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\,d\mathbf{x}$
-    and Fubini to obtain
-    $$
-    \mathbb{E}_{q_\sigma}
-    [\mathbf{s}_\theta\cdot\nabla\log q_\sigma]
-    =
-    \mathbb{E}_{p_{\mathrm{data}}}
-    \mathbb{E}_{q_\sigma(\cdot\mid\mathbf{x})}
-    [\mathbf{s}_\theta\cdot\nabla\log q_\sigma(\cdot\mid\mathbf{x})].
-    $$
-    Integration by parts identifies this cross term with
-    $-\mathbb{E}_{q_\sigma}[\nabla\cdot\mathbf{s}_\theta]$, so the two objectives
-    differ only by a constant.
+  <p style="margin-top: 0.5rem;">
+    The central question, is minimizing $D$ with the closed-form conditional score equivalent
+    to minimizing the intractable $E$?, is answered affirmatively up to an additive constant.
+  </p>
+  <div class="box-theorem" style="margin-top: 0.75rem;">
+    <span class="tag-pill tag-thm">Theorem — Equivalence ESM-DSM (Vincent, 2011)</span>
+    For any $\sigma > 0$ and any measurable $\mathbf{s}_{\boldsymbol{\theta}}$ with
+    $\mathbb{E}_{q_\sigma}\bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2\bigr]<\infty$,
+    there exists a constant $C$ independent of $\boldsymbol{\theta}$ such that
+    $$E(\boldsymbol{\theta};\,q_\sigma) = D(\boldsymbol{\theta};\,q_\sigma) + C.$$
   </div>
 </div>
+
 
 <!-- SLIDE 14 -->
 <div class="slide dense">
-  <h2>Noise-Conditioned Score Networks</h2>
+  <h2>Proof</h2>
   <div class="accent-line"></div>
 
   <p>
-    The equivalence gives a practical training rule: learn a score network
-    $\mathbf{s}_\theta(\mathbf{x},\sigma)$ that matches the Gaussian conditional
-    target at multiple noise scales
-    $\sigma_1>\sigma_2>\cdots>\sigma_L>0$.
+    Apply Proposition (ISM decomposition) to $p=q_\sigma$: there exists $C_1$ independent
+    of $\boldsymbol{\theta}$ such that $E(\boldsymbol{\theta};q_\sigma)=I(\boldsymbol{\theta};q_\sigma)+C_1$, where
   </p>
-
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: single-scale denoising loss</span>
-    $$
-    \ell(\theta;\sigma)
-    =
-    \frac12
-    \mathbb{E}_{p_{\mathrm{data}}(\mathbf{x})}
-    \mathbb{E}_{\tilde{\mathbf{x}}\sim\mathcal{N}(\mathbf{x},\sigma^2I)}
-    \left[
-    \left\|
-    \mathbf{s}_\theta(\tilde{\mathbf{x}},\sigma)
-    +
-    \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma^2}
-    \right\|_2^2
-    \right].
-    $$
-  </div>
-
-  <div class="math-row">
-    <div>
-      $$
-      \mathcal{L}(\theta)
-      =
-      \frac1L\sum_{i=1}^{L}
-      \lambda(\sigma_i)\ell(\theta;\sigma_i),
-      \qquad
-      \lambda(\sigma)=\sigma^2.
-      $$
-    </div>
-    <div>
-      $$
-      \sigma^2\ell(\theta;\sigma)
-      =
-      \frac12\mathbb{E}
-      \left[
-      \left\|
-      \sigma\mathbf{s}_\theta(\tilde{\mathbf{x}},\sigma)
-      +
-      \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma}
-      \right\|_2^2
-      \right],
-      \qquad
-      \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma}\sim\mathcal{N}(0,I).
-      $$
-    </div>
-  </div>
-
   <p>
-    Large scales provide global signal; small scales recover the data distribution.
-    The trained family approximates
-    $\{\nabla\log q_{\sigma_i}\}_{i=1}^{L}$.
+    \[
+      I(\boldsymbol{\theta};q_\sigma)
+      = \mathbb{E}_{q_\sigma}\!\Big[
+          \nabla_{\tilde{\mathbf{x}}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})
+          + \tfrac{1}{2}\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2
+        \Big].
+    \]
   </p>
+  <p>Expanding $I$ and $D$ in their squared-norm form and collecting terms:</p>
+  <p>
+    \[
+      I(\boldsymbol{\theta};q_\sigma)
+      = \frac{1}{2}\,\mathbb{E}_{q_\sigma}\bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2\bigr]
+      + \mathbb{E}_{q_\sigma}\bigl[\nabla_{\tilde{\mathbf{x}}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\bigr],
+    \]
+  </p>
+  <p>
+    \[
+      D(\boldsymbol{\theta};q_\sigma)
+      = \frac{1}{2}\,\mathbb{E}_{p_{\text{data}}}\mathbb{E}_{q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+          \bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2\bigr]
+      - \mathbb{E}_{p_{\text{data}}}\mathbb{E}_{q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+          \bigl[\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot
+                \nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\bigr]
+      + C_2.
+    \]
+  </p>
+  <p>
+    <strong>Step 1 — Energy terms coincide.</strong>
+    Since $q_\sigma(\tilde{\mathbf{x}})=\int p_{\text{data}}(\mathbf{x})\,q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\,d\mathbf{x}$,
+    the law of total expectation gives directly
+  </p>
+  <p>
+    \[
+      \mathbb{E}_{p_{\text{data}}}\mathbb{E}_{q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+      \bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2\bigr]
+      = \mathbb{E}_{q_\sigma}\bigl[\|\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\|_2^2\bigr].
+    \]
+  </p>
+  <p>It remains to prove the equality of the cross terms.</p>
 </div>
+
 
 <!-- SLIDE 15 -->
 <div class="slide dense">
-  <h2>Final NCSN Objective</h2>
+  <h2>Proof</h2>
   <div class="accent-line"></div>
 
-  <div class="box-def">
-    <span class="tag-pill tag-def">Definition: NCSN training objective</span>
-    $$
-    \mathcal{L}_{\mathrm{NCSN}}(\theta)
-    =
-    \frac1L
-    \sum_{i=1}^{L}
-    \sigma_i^2
-    \mathbb{E}_{p_{\mathrm{data}}(\mathbf{x})}
-    \mathbb{E}_{\tilde{\mathbf{x}}\sim
-    \mathcal{N}(\mathbf{x},\sigma_i^2I)}
-    \left[
-    \left\|
-    \mathbf{s}_\theta(\tilde{\mathbf{x}},\sigma_i)
-    +
-    \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma_i^2}
-    \right\|_2^2
-    \right].
-    $$
-  </div>
-
   <p>
-    This objective avoids computing
-    $\nabla_{\mathbf{x}}\cdot\mathbf{s}_\theta(\mathbf{x})$ and supplies training
-    signal in sparse regions. In score-based generation, it is the finite-scale
-    precursor to learning the time-dependent score $\nabla_{\mathbf{x}}\log p_t$.
+    <strong>Step 2 — Cross terms via marginal representation and Fubini.</strong>
+    Using $q_\sigma$ as a marginal and substituting its integral representation,
+    exchanging gradient with integral (justified by the integrability condition):
+  </p>
+  <p>
+    \[
+      \mathbb{E}_{q_\sigma}\bigl[
+        \mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot\nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}})
+      \bigr]
+      = \int_{\mathbb{R}^d}\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot
+        \Bigl(\int_{\mathbb{R}^d}p_{\text{data}}(\mathbf{x})\,
+        \nabla_{\tilde{\mathbf{x}}}q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\,d\mathbf{x}\Bigr)d\tilde{\mathbf{x}}.
+    \]
+  </p>
+  <p>
+    Writing \(\nabla_{\tilde{\mathbf{x}}}q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})
+    =q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\,\nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})\)
+    and applying Fubini yields
+    \(\mathbb{E}_{p_{\text{data}}}\mathbb{E}_{q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+    [\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot\nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})]\).
   </p>
 
-  <div class="math-row">
-    <div>
-      $$
-      \mathbf{s}_\theta(\cdot,\sigma_i)
-      \approx
-      \nabla_{\mathbf{x}}\log q_{\sigma_i}(\cdot),
-      \qquad
-      i=1,\ldots,L.
-      $$
-    </div>
-    <div>
-      $$
-      \sigma_1\gg1:
-      \text{global smoothing},
-      \qquad
-      \sigma_L\approx0:
-      q_{\sigma_L}\approx p_{\mathrm{data}}.
-      $$
-    </div>
+  <p style="margin-top: 0.5rem;">
+    <strong>Step 3 — Integration by parts of the curvature term.</strong>
+    Integrating \(\mathbb{E}_{q_\sigma}[\nabla_{\tilde{\mathbf{x}}}\cdot\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})]\)
+    by parts gives exactly
+    \(-\mathbb{E}_{q_\sigma}[\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot\nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}})]\),
+    which by Step 2 equals
+    \(-\mathbb{E}_{p_{\text{data}}}\mathbb{E}_{q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})}
+    [\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}})\cdot\nabla_{\tilde{\mathbf{x}}}\log q_\sigma(\tilde{\mathbf{x}}\mid\mathbf{x})]\).
+    Substituting Steps 1–3:
+  </p>
+
+  <p>
+    \[I(\boldsymbol{\theta};q_\sigma)+C_1 = D(\boldsymbol{\theta};q_\sigma)+(C_1+C_2)
+    \;\Longrightarrow\;
+    E(\boldsymbol{\theta};q_\sigma) = D(\boldsymbol{\theta};q_\sigma)+C,\quad C=C_1+C_2.\quad\square\]
+  </p>
+
+  <div class="box-def" style="margin-top: 0.65rem; background: rgba(255, 254, 237, 0.5); border-left-color: var(--gold);">
+    <span class="tag-pill tag-com">Interpretation</span>
+    Minimizing $D(\boldsymbol{\theta};q_\sigma)$ with the tractable conditional score
+    $-(\tilde{\mathbf{x}}-\mathbf{x})/\sigma^2$ is <em>exactly</em> equivalent to
+    minimizing the intractable ESM objective. The analogy: ESM directly senses the marginal
+    score at your location and DSM, displaced by the same noise, infers the direction from the
+    observed residual $-(\tilde{\mathbf{x}}-\mathbf{x})/\sigma^2$, converging to the same
+    field without ever measuring the marginal score.
   </div>
 </div>
 
 <!-- SLIDE 16 -->
 <div class="slide dense">
-  <h2>Empirical Validation: Bimodal Experiment</h2>
+  <h2>Noise-Conditioned Score Networks</h2>
   <div class="accent-line"></div>
 
-  <div class="row g-3 align-items-start">
+  <p>
+    The ESM–DSM equivalence provides a practical path: instead of the intractable
+    marginal score $\nabla\log q_\sigma$, we train a score network
+    $\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x},\sigma)$ to match the
+    <strong>closed-form conditional score</strong>
+    $-(\tilde{\mathbf{x}}-\mathbf{x})/\sigma^2$. For a single noise level $\sigma$,
+    this yields the denoising objective:
+  </p>
+
+  <div class="box-def">
+    <span class="tag-pill tag-def">Single-Scale Denoising Objective</span>
+    $$
+      \ell(\boldsymbol{\theta};\sigma)
+      =
+      \frac{1}{2}\,
+      \mathbb{E}_{p_{\mathrm{data}}(\mathbf{x})}\,
+      \mathbb{E}_{\tilde{\mathbf{x}}\sim\mathcal{N}(\mathbf{x},\sigma^2 I)}
+      \!\Big[
+        \Big\|
+          \mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}},\sigma)
+          +
+          \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma^2}
+        \Big\|_2^2
+      \Big].
+    $$
+  </div>
+
+  <p style="margin-top:0.55rem;">
+    A single $\sigma$ is not enough: a large $\sigma$ provides training signal in
+    sparse regions but blurs fine structure; a small $\sigma$ preserves detail but
+    leaves low-density regions without informative gradients. The solution is a
+    <strong>geometric progression of noise levels</strong>
+    $\sigma_1>\sigma_2>\cdots>\sigma_L>0$, where:
+  </p>
+
+  <div class="row g-3 align-items-stretch" style="margin-top:0.2rem;">
     <div class="col-md-6">
-      <p>
-        The experiment uses a Gaussian mixture in $\mathbb{R}^{2}$:
-      </p>
-      <div class="math-display">
-        $$
-        p_{\mathrm{data}}(\mathbf{x})
-        =
-        0.2\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_1,I)
-        +
-        0.8\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_2,I),
-        $$
-        $$
-        \boldsymbol{\mu}_1=(-5,-5),
-        \qquad
-        \boldsymbol{\mu}_2=(5,5).
-        $$
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Large </span>
+        Guarantees a non-zero training signal even in the sparsest regions of
+        $p_{\mathrm{data}}$. The perturbed distribution $q_{\sigma_1}$ has full,
+        diffuse support score estimates are reliable everywhere.
       </div>
-      <p>
-        The modes are well separated, creating a low-density valley where classical
-        score matching receives little signal.
-      </p>
-      <p>
-        NCSN architecture: 8 fully connected layers, 128 neurons per hidden layer,
-        input $(\mathbf{x},\sigma)$, SiLU activation, output in $\mathbb{R}^{2}$,
-        and $242{,}402$ trainable parameters.
-      </p>
     </div>
-    <div class="col-md-6 text-center">
-      <img src="images/lost.png" class="img-fluid image-frame large-figure" alt="Training loss curve">
-      <p class="caption-small">Training loss curve for the DSM objective.</p>
-      <p class="small plain-small">
-        Training: $6000$ iterations, batch size $30000$, learning rate
-        $5\times10^{-4}$, AdamW, weight decay $2\times10^{-5}$, gradient clipping
-        at norm $1.0$, and $\sigma\in[0.001,4.0]$.
-      </p>
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+        <span class="tag-pill tag-thm">Small</span>
+        Ensures $q_{\sigma_L}\approx p_{\mathrm{data}}$: at the finest scale the
+        score network approximates the true data score, enabling accurate sample
+        generation by Langevin dynamics.
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- SLIDE 17 -->
 <div class="slide dense">
-  <h2>Learned Score Field</h2>
+  <h2>Multi-Scale NCSN Objective</h2>
   <div class="accent-line"></div>
 
-  <div class="row g-3 align-items-center">
-    <div class="col-md-8 text-center">
-      <img src="images/NCSN_score.png" class="img-fluid image-frame xlarge-figure" alt="True and estimated score fields">
-      <p class="caption-small">
-        True score in blue and estimated score in red at $\sigma_{\min}=0.001$.
-      </p>
-    </div>
-    <div class="col-md-4">
-      <p>
-        The learned vector field is evaluated on a uniform grid over
-        $[-12,12]\times[-12,12]$.
-      </p>
-      <div class="math-display">
+  <p>
+    Following Song &amp; Ermon (2019), the multi-scale training objective is a
+    weighted average over all noise levels:
+  </p>
+  <p> 
+    \[
+    \mathcal{L}(\boldsymbol{\theta})
+    =
+    \frac{1}{L}
+    \sum_{i=1}^{L}
+    \lambda(\sigma_i)\,\ell(\boldsymbol{\theta};\sigma_i),
+    \qquad
+    \lambda(\sigma)>0.
+    \]
+  </p>
+
+  <p>
+    Minimizing $\mathcal{L}$ drives $\mathbf{s}_{\boldsymbol{\theta}}(\cdot,\sigma_i)$
+    toward the true score $\nabla\log q_{\sigma_i}$ for each scale. The critical
+    design choice is the weighting $\lambda(\sigma)$.
+  </p>
+
+  <div class="row g-3 align-items-stretch">
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Weighting</span><br>
+        Near optimality, $\|\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x},\sigma)\|_2\propto 1/\sigma$.
+        The weighted loss becomes
         $$
-        \mathrm{MSE}
-        =
-        \frac1M\sum_{j=1}^{M}
-        \left\|
-        \mathbf{s}_\theta(\mathbf{x}_j,\sigma_{\min})
-        -
-        \nabla\log p_{\mathrm{data}}(\mathbf{x}_j)
-        \right\|_2^2.
+          \sigma^2\,\ell(\boldsymbol{\theta};\sigma)
+          =
+          \frac{1}{2}\,\mathbb{E}
+          \!\Big[
+            \Big\|
+              \sigma\,\mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}},\sigma)
+              +
+              \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma}
+            \Big\|_2^2
+          \Big].
         $$
-        $$
-        \cos(\alpha_j)
-        =
-        \frac{
-        \mathbf{s}_\theta(\mathbf{x}_j,\sigma_{\min})
-        \cdot
-        \nabla\log p_{\mathrm{data}}(\mathbf{x}_j)}
-        {\|\mathbf{s}_\theta(\mathbf{x}_j,\sigma_{\min})\|
-        \|\nabla\log p_{\mathrm{data}}(\mathbf{x}_j)\|}.
-        $$
+        Since $(\tilde{\mathbf{x}}-\mathbf{x})/\sigma\sim\mathcal{N}(\mathbf{0},I)$,
+        both terms inside the norm remain $O(1)$ regardless of $\sigma$, 
+        <strong>balancing gradient magnitudes across all scales</strong>.
       </div>
-      <p>
-        The alignment remains accurate near the modes and through the low-density
-        valley.
-      </p>
+    </div>
+
+    <div class="col-md-6">
+      <div class="box-def" style="height:100%; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+        <span class="tag-pill tag-thm">Final NCSN Training Loss</span>
+        $$
+          \mathcal{L}_{\mathrm{NCSN}}(\boldsymbol{\theta})
+          =
+          \frac{1}{L}
+          \sum_{i=1}^{L}
+          \sigma_i^2\,
+          \mathbb{E}_{p_{\mathrm{data}}}\,
+          \mathbb{E}_{\tilde{\mathbf{x}}\sim\mathcal{N}(\mathbf{x},\sigma_i^2 I)}
+          \!\Big[
+            \Big\|
+              \mathbf{s}_{\boldsymbol{\theta}}(\tilde{\mathbf{x}},\sigma_i)
+              +
+              \frac{\tilde{\mathbf{x}}-\mathbf{x}}{\sigma_i^2}
+            \Big\|_2^2
+          \Big].
+        $$
+        This objective sidesteps <strong>both</strong> limitations of classical
+        score matching: $\nabla_{\mathbf{x}}\cdot\mathbf{s}_{\boldsymbol{\theta}}$
+        is never computed, and the multi-scale noise injects informative gradients
+        everywhere, even where $p_{\mathrm{data}}$ is negligible.
+      </div>
     </div>
   </div>
 </div>
-
 <!-- SLIDE 18 -->
 <div class="slide dense">
-  <h2>Annealed Langevin Sampling</h2>
+  <h2>Empirical Validation — Experiment Setup</h2>
   <div class="accent-line"></div>
 
-  <div class="row g-3 align-items-center">
+  <p>
+    We instantiate the NCSN training objective on a controlled two-dimensional
+    example. The goal is twofold: to empirically validate the ESM–DSM equivalence
+    and to demonstrate that the learned score network provides accurate estimates
+    even in <strong>low-density regions</strong>.
+  </p>
+
+  <div class="row g-3 align-items-stretch">
+
     <div class="col-md-5">
-      <p>
-        Starting from noise, samples are refined along the learned score field with
-        a decreasing noise schedule from $\sigma_{\max}=4.0$ to
-        $\sigma_{\min}=0.001$.
-      </p>
-      <div class="math-display">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Bimodal Target Distribution</span>
         $$
-        \mathbf{x}_{i+1}
-        =
-        \mathbf{x}_i
-        +
-        \alpha\,\mathbf{s}_\theta(\mathbf{x}_i,\sigma_i)
-        +
-        \sqrt{2\alpha}\,\boldsymbol{\epsilon}_i,
-        \qquad
-        \boldsymbol{\epsilon}_i\sim\mathcal{N}(\mathbf{0},I).
+          p_{\mathrm{data}}(\mathbf{x})
+          =
+          0.2\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_1,I)
+          +
+          0.8\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_2,I)
         $$
+        with $\boldsymbol{\mu}_1=(-5,-5)$ and $\boldsymbol{\mu}_2=(5,5)$.
+        The two modes are well separated, leaving a <strong>low-density valley</strong>
+        that challenges score estimation where data are scarce.
       </div>
-      <p>
-        The deterministic term moves samples toward high-density regions; the
-        stochastic term preserves exploration and prevents premature collapse.
-      </p>
     </div>
-    <div class="col-md-7 text-center">
-      <img src="images/samples_2d.png" class="img-fluid image-frame xlarge-figure" alt="Generated samples over true density contours">
-      <p class="caption-small">Generated samples reproduce the two mixture modes and relative weights.</p>
+
+    <div class="col-md-7">
+      <div class="box-def" style="height:100%; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+        <span class="tag-pill tag-thm">NCSN Architecture &amp; Training</span>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.3rem 1rem; margin-top:0.3rem; font-size:0.82rem;">
+          <div><strong>Architecture</strong><br>8-layer MLP, 128 neurons/layer</div>
+          <div><strong>Input</strong><br>$[\mathbf{x}\in\mathbb{R}^2,\,\sigma]$</div>
+          <div><strong>Activation</strong><br>SiLU (smooth, no dead neurons)</div>
+          <div><strong>Parameters</strong><br>242,402 trainable</div>
+          <div><strong>Iterations</strong><br>6,000 · batch 30,000</div>
+          <div><strong>Optimizer</strong><br>AdamW, $\eta=5\times10^{-4}$, cosine</div>
+          <div><strong>Noise range</strong><br>$\sigma\sim\mathcal{U}[0.001,\,4.0]$</div>
+          <div><strong>Grad clip</strong><br>max norm 1.0</div>
+        </div>
+      </div>
     </div>
+
   </div>
+
+  <p style="margin-top:0.55rem;">
+    The loss minimized is the DSM objective with $\lambda(\sigma)=\sigma^2$,
+    where $\tilde{\mathbf{x}}=\mathbf{x}+\sigma\boldsymbol{\epsilon}$,
+    $\boldsymbol{\epsilon}\sim\mathcal{N}(\mathbf{0},I)$:
+  </p>
+  <p>
+    \[ 
+    \mathcal{L}(\boldsymbol{\theta})
+    =
+    \frac{1}{L}\sum_{i=1}^{L}
+    \sigma_i^2\,
+    \mathbb{E}_{\mathbf{x}\sim p_{\mathrm{data}}}
+    \mathbb{E}_{\boldsymbol{\epsilon}\sim\mathcal{N}(\mathbf{0},I)}
+    \!\Big[
+      \Big\|
+        \mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x}+\sigma_i\boldsymbol{\epsilon},\,\sigma_i)
+        +
+        \frac{\boldsymbol{\epsilon}}{\sigma_i}
+      \Big\|_2^2
+    \Big].
+    \] 
+    </p>
+  
 </div>
 
-<!-- SLIDE 19 -->
+<!-- SLIDE 19 — Interactive Demo -->
 <div class="slide dense">
-  <h2>Interactive Demo: Score Field, DSM &amp; Langevin Dynamics</h2>
+  <h2>Interactive Demo: Score Field &amp; Langevin Dynamics</h2>
   <div class="accent-line"></div>
+ 
   <p>
     Bimodal target:
-    $p_{\mathrm{data}}(x)=0.2\,\mathcal{N}(x;\mu_1,I)+0.8\,\mathcal{N}(x;\mu_2,I)$
-    with $\mu_1=(-5,-5)$, $\mu_2=(5,5)$.
+    $p_{\mathrm{data}}(\mathbf{x})
+    = 0.2\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_1,I)
+    + 0.8\,\mathcal{N}(\mathbf{x};\boldsymbol{\mu}_2,I)$,
+    with $\boldsymbol{\mu}_1=(-5,-5)$, $\boldsymbol{\mu}_2=(5,5)$.
   </p>
-  <div class="dsm-demo-container"></div>
-  <p class="small mt-1" style="color:#8aa0b5;">
-    📐 <strong>Score field:</strong> increasing $\sigma$ smooths the field globally.
-    &nbsp;|&nbsp;
-    🌀 <strong>DSM mode:</strong> click canvas to place $x$; orange $= -(\tilde{x}-x)/\sigma^2$, green $= \nabla\log q_\sigma(\tilde{x})$.
-    &nbsp;|&nbsp;
-    ⚡ <strong>Langevin:</strong> particles converge to $p_{\mathrm{data}}$ via annealed dynamics.
-  </p>
+ 
+  <!-- Original demo container — rendered by the existing JS in the presentation -->
+  <div class="dsm-demo-container"
+    style="margin-top:0.5rem;
+           border-radius:8px;
+           border:1px solid var(--border-light);
+           overflow:hidden;
+           box-shadow:0 4px 24px -6px rgba(14,14,26,0.18);">
+  </div>
+ 
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.4rem; margin-top:0.55rem;">
+    <div class="box-def" style="padding:0.4rem 0.6rem; font-size:0.71rem; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <strong style="color:var(--asagi);">📐 Score field</strong><br>
+      Increasing $\sigma$ smooths $\nabla\log q_\sigma$ globally.
+    </div>
+    <div class="box-def" style="padding:0.4rem 0.6rem; font-size:0.71rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <strong style="color:var(--gold);">🌀 DSM mode</strong><br>
+      Click canvas to place $\mathbf{x}$; orange $= -(\tilde{\mathbf{x}}-\mathbf{x})/\sigma^2$,
+      green $= \nabla\log q_\sigma(\tilde{\mathbf{x}})$.
+    </div>
+    <div class="box-def" style="padding:0.4rem 0.6rem; font-size:0.71rem; background:rgba(237,255,244,0.5); border-left-color:var(--matcha);">
+      <strong style="color:var(--matcha);">⚡ Langevin</strong><br>
+      Particles converge to $p_{\mathrm{data}}$ via annealed dynamics.
+    </div>
+  </div>
 </div>
 
 <!-- SLIDE 20 -->
 <div class="slide dense">
-  <h2>Empirical Conclusion and Transition to SDEs</h2>
+  <h2>Results — Score Estimation</h2>
   <div class="accent-line"></div>
 
-  <div class="row g-3 align-items-center">
-    <div class="col-md-6 text-center">
-      <img src="images/samples_histogram.png" class="img-fluid image-frame large-figure" alt="Marginal histograms">
-      <p class="caption-small">Generated marginals versus the true distribution.</p>
+  <div class="row g-3 align-items-stretch">
+
+    <div class="col-md-4">
+      <div class="box-def" style="height:100%;">
+        <span class="tag-pill tag-def">Score Estimation Quality</span>
+        Evaluated on a uniform grid over $[-12,12]^2$ comparing
+        $\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x},\sigma_{\min})$
+        against the true score $\nabla_{\mathbf{x}}\log p_{\mathrm{data}}(\mathbf{x})$:
+        <br><br>
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:0.35rem 0.75rem; font-size:0.8rem; align-items:center;">
+          <span style="color:var(--text-muted);">MSE</span>
+          <span>indistinguishable near the modes</span>
+          <span style="color:var(--text-muted);">Cosine sim.</span>
+          <span>high — directions aligned everywhere</span>
+          <span style="color:var(--text-muted);">Angular err.</span>
+          <span>low — including the low-density valley</span>
+        </div>
+        <br>
+        The multi-scale noise injects training signal across the entire domain,
+        confirming the theory: even the sparse inter-modal valley is covered.
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <!-- Cambio: imágenes apiladas en columna en lugar de lado a lado -->
+      <div style="display:flex; flex-direction:column; gap:0.7rem; height:100%;">
+        <div style="text-align:center; flex:1;">
+          <img src="images/NCSN_score.png" alt="Score comparison"
+               style="width:100%; height:auto; max-height:260px; object-fit:contain; border-radius:4px;">
+          <p style="font-size:0.68rem; color:var(--text-muted); margin:0.25rem 0 0;">
+            <span style="color:#4a6fa5;">Blue</span> = true score &nbsp;·&nbsp;
+            <span style="color:#c8292b;">Red</span> = estimated at $\sigma_{\min}=0.001$
+          </p>
+        </div>
+        <div style="text-align:center; flex:1;">
+          <img src="images/lost.png" alt="Training loss"
+               style="width:100%; height:auto; max-height:260px; object-fit:contain; border-radius:4px;">
+          <p style="font-size:0.68rem; color:var(--text-muted); margin:0.25rem 0 0;">
+            Training loss curve — $\mathcal{L}_{\mathrm{NCSN}}$
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SLIDE 21 -->
+<div class="slide dense">
+  <h2>Results — Sample Generation</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    To validate the learned score, new samples are generated via
+    <strong>annealed Langevin dynamics</strong>. Starting from pure noise,
+    particles iterate
+    $\mathbf{x}_{t+1}=\mathbf{x}_t+\alpha\,\mathbf{s}_{\boldsymbol{\theta}}(\mathbf{x}_t,\sigma_t)+\sqrt{2\alpha}\,\boldsymbol{\epsilon}_t$
+    with $\sigma_t$ decreasing from $\sigma_{\max}=4.0$ to $\sigma_{\min}=0.001$.
+  </p>
+
+  <div class="row g-3 align-items-stretch" style="margin-top:0.4rem;">
+    <div class="col-md-6">
+      <div style="text-align:center;">
+        <img src="images/samples_2d.png" alt="Generated samples"
+             style="width:100%; height:280px; object-fit:contain; border-radius:4px;">
+        <p style="font-size:0.68rem; color:var(--text-muted); margin:0.25rem 0 0;">
+          10,000 generated samples overlaid on the true density contours
+        </p>
+      </div>
     </div>
     <div class="col-md-6">
-      <p>
-        The empirical results corroborate the theoretical chain: score matching is
-        normalization-free, DSM gives a tractable conditional target, NCSNs learn a
-        family of smoothed scores, and annealed Langevin dynamics turns those scores
-        into samples.
-      </p>
-      <div class="math-display">
-        $$
-        \nabla\log q_{\sigma_i}
-        \quad\leadsto\quad
-        \mathbf{s}_\theta(\cdot,\sigma_i)
-        \quad\leadsto\quad
-        \mathbf{x}_{i+1}
-        =
-        \mathbf{x}_{i}
-        +
-        \alpha\mathbf{s}_\theta(\mathbf{x}_i,\sigma_i)
-        +
-        \sqrt{2\alpha}\boldsymbol{\epsilon}_i.
-        $$
-      </div>
-      <p>
-        This naturally leads to continuous-time diffusion processes and reverse-time
-        stochastic differential equations:
-      </p>
-      <div class="math-display">
-        $$
-        dX_t=f(X_t,t)\,dt+g(t)\,dW_t,
-        \qquad
-        \text{reverse dynamics require }\nabla_{\mathbf{x}}\log p_t(\mathbf{x}).
-        $$
+      <div style="text-align:center;">
+        <img src="images/samples_histogram.png" alt="Marginal histograms"
+             style="width:100%; height:280px; object-fit:contain; border-radius:4px;">
+        <p style="font-size:0.68rem; color:var(--text-muted); margin:0.25rem 0 0;">
+          Marginals: generated (orange) vs. true (blue)
+        </p>
       </div>
     </div>
+  </div>
+
+  <div class="box-def" style="margin-top:0.6rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+    <span class="tag-pill tag-com">Conclusion</span>
+    Both modes and their relative weights are accurately recovered. The empirical
+    success corroborates all theoretical guarantees established in the preceding
+    slides: the multi-scale DSM objective provides informative gradients everywhere,
+    and annealed Langevin dynamics converges to $p_{\mathrm{data}}$ from pure noise.
   </div>
 
   <footer>
@@ -1130,7 +1266,6 @@
     <a href="chapter2.html">Chapter 2</a>
   </footer>
 </div>
-
 </div>
 </div>
 
