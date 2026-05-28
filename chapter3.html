@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Chapter 3 – Families of Stochastic Differential Equations</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$'],['\\(','\\)']],
+        displayMath: [['$$','$$'],['\\[','\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="scaler">
+<div id="stage">
+
+<div id="slide-counter">1 / 12</div>
+
+<!-- SLIDE 1 — Title (sin cambios) -->
+<div class="slide title-slide active">
+  <div class="spacer"></div>
+  <span class="chapter-badge">Chapter 3</span>
+  <div class="accent-line"></div>
+  <div class="row g-3 align-items-center">
+    <div class="col-md-7">
+      <h1>Families of<br>Stochastic<br>Differential Equations</h1>
+      <p class="lead-copy">
+        VE, VP, sub-VP, and the new Linear Variance SDE:
+        forward dynamics, transition kernels, conditional scores,
+        and reverse-time processes under a unified affine framework.
+      </p>
+    </div>
+    <div class="col-md-5 text-center">
+      <img src="images/recuperation_5.png" class="img-fluid title-diagram"
+           alt="Forward perturbation comparison" onerror="this.style.display='none'">
+      <p class="caption-small">backward recuperation under four SDE families.</p>
+    </div>
+  </div>
+  <footer>
+    <a href="index.html">Back to Index</a>
+    &nbsp;&middot;&nbsp;<a href="chapter2.html">Chapter 2</a>
+  </footer>
+</div>
+
+
+<!-- SLIDE 2 — Unified Framework -->
+<div class="slide dense">
+  <h2>Unified Treatment: Affine Framework</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    Having established the theoretical foundations of score-based generative modeling
+    through SDEs, we now examine specific families that arise as continuous-time limits
+    of discrete models. Each family corresponds to a different choice of drift
+    $\mathbf{f}$ and diffusion $G$, leading to distinct perturbation dynamics and
+    trade-offs in training and sampling.
+  </p>
+  <p style="margin-top:0.4rem;">
+    In addition to the well-known VE and VP SDEs (and their sub-VP variant), we
+    introduce the <strong>Linear Variance (LV) SDE</strong>, a new model whose
+    conditional variance grows linearly with time, yielding a uniform temporal scale
+    and smooth reverse dynamics. We hypothesize this will enable larger step sizes
+    during numerical integration and thus faster inference.
+  </p>
+  <div class="box-theorem" style="margin-top:0.35rem;">
+    <span class="tag-pill tag-thm">Reverse-Time Template (Anderson 1982, Song et al. 2021)</span>
+    $$
+      d\mathbf{X}=\bigl[\mathbf{f}(\mathbf{X},t)-G(t)G(t)^\top\mathbf{s}_t(\mathbf{X})\bigr]dt
+      +G(t)\,d\bar{\mathbf{W}},
+      \qquad t:T\to0,\quad\mathbf{X}_T\sim p_T,
+    $$
+    where $d\bar{\mathbf{W}}$ denotes a reverse-time Wiener increment.
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem; margin-top:0.5rem;">
+    <div class="box-def" style="text-align:center; padding:0.5rem 0.4rem;">
+      <span class="tag-pill tag-def" style="display:block; margin-bottom:0.25rem;">VE</span>
+      <small><strong>Variance Exploding</strong></small><br>
+      <small style="color:var(--text-muted);">$\mathbf{F}=0$, $\Sigma_t=\sigma^2(t)I$</small>
+    </div>
+    <div class="box-def" style="text-align:center; padding:0.5rem 0.4rem; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm" style="display:block; margin-bottom:0.25rem;">VP</span>
+      <small><strong>Variance Preserving</strong></small><br>
+      <small style="color:var(--text-muted);">$\mathbf{F}=-\tfrac{\beta}{2}I$, $\Sigma_t=(1-e^{-\bar\beta})I$</small>
+    </div>
+    <div class="box-def" style="text-align:center; padding:0.5rem 0.4rem;">
+      <span class="tag-pill tag-def" style="display:block; margin-bottom:0.25rem;">sub-VP</span>
+      <small><strong>sub-Variance Preserving</strong></small><br>
+      <small style="color:var(--text-muted);">same drift as VP, $\Sigma_t=(1-e^{-\bar\beta})^2I$</small>
+    </div>
+    <div class="box-def" style="text-align:center; padding:0.5rem 0.4rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <span class="tag-pill tag-com" style="display:block; margin-bottom:0.25rem;">LV</span>
+      <small><strong>Linear Variance</strong> <em>(new)</em></small><br>
+      <small style="color:var(--text-muted);">$\mathbf{F}=-\theta I$, $\Sigma_t=tI$</small>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 3 — VE: Forward SDE + Kernel -->
+<div class="slide dense">
+  <h2>Variance Exploding (VE) SDE</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    The VE SDE arises as the continuous limit of the SMLD noise sequence. The discrete
+    Markov chain $\mathbf{x}_i=\mathbf{x}_{i-1}+\sqrt{\sigma_i^2-\sigma_{i-1}^2}\,\mathbf{z}_{i-1}$,
+    $\mathbf{z}_{i-1}\sim\mathcal{N}(\mathbf{0},I)$, converges as $N\to\infty$ with
+    $\{\sigma_i\}$ replaced by a continuous function $\sigma(t)$:
+  </p>
+
+  <div class="box-theorem" style="margin-top:0.45rem;">
+    <span class="tag-pill tag-thm">VE Forward SDE and Transition Kernel</span>
+    $$
+      d\mathbf{X}_t=\sqrt{\tfrac{d}{dt}\sigma^2(t)}\;d\mathbf{W}_t,
+      \qquad\mathbf{X}_0\sim p_{\mathrm{data}}.
+    $$
+    Special case of the affine family: $\mathbf{F}(t)=0$, $\mathbf{c}=0$,
+    $\Phi(t,s)=I$. Applying the general kernel formulas with $\sigma(0)=0$:
+    $$
+      \mathbf{m}_t(\mathbf{x}_0)=\mathbf{x}_0,
+      \qquad
+      \Sigma_t=\int_0^t\dot\sigma^2(\tau)\,d\tau=\sigma^2(t)\,I,
+    $$
+    $$
+      p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+      =\mathcal{N}\!\bigl(\mathbf{x}_t;\,\mathbf{x}_0,\,\sigma^2(t)I\bigr).
+    $$
+  </div>
+
+  <div class="box-def" style="margin-top:0.5rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+    <span class="tag-pill tag-com">Zero drift: only noise injection</span>
+    <p>The forward process preserves the mean exactly at $\mathbf{x}_0$ and only grows
+    the variance, controlled entirely by $\sigma(t)$. There is no attenuation of the
+    signal, which has direct consequences for the reverse process and initialization.</p>
+  </div>
+</div>
+
+
+<!-- SLIDE 4 — VE: Conditional Score + Reverse SDE -->
+<div class="slide dense">
+  <h2>VE SDE: Conditional Score and Reverse Process</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    Differentiating the Gaussian kernel
+    $p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)=\mathcal{N}(\mathbf{x}_0,\sigma^2(t)I)$
+    gives the conditional score. With $\mathbf{f}\equiv\mathbf{0}$ and
+    $G(t)G(t)^\top=\dot\sigma^2(t)I$, substituting into the reverse template:
+  </p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.45rem;">
+    <div class="box-def" style="background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm">Conditional Score</span>
+      $$
+        \nabla_{\mathbf{x}_t}\log p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+        =-\frac{\mathbf{x}_t-\mathbf{x}_0}{\sigma^2(t)}.
+      $$
+      <p style="margin-top:0.3rem;">Points directly from $\mathbf{x}_t$ back toward $\mathbf{x}_0$,
+      scaled by $1/\sigma^2(t)$. No mean attenuation to account for.</p>
+    </div>
+    <div class="box-theorem">
+      <span class="tag-pill tag-thm">VE Reverse SDE</span>
+      $$
+        d\mathbf{X}=-\dot\sigma^2(t)\,\mathbf{s}_t(\mathbf{X})\,dt
+        +\sqrt{\dot\sigma^2(t)}\,d\bar{\mathbf{W}},\quad t:T\to0.
+      $$
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.55rem;">
+    <div class="box-def" style="background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <span class="tag-pill tag-com">Pure score drift</span>
+      <p>The reverse drift is entirely a score term with no deterministic restoring
+      force, reflecting that the forward VE process adds noise without attenuating
+      the signal.</p>
+    </div>
+    <div class="box-def" style="background:rgba(252,235,235,0.6); border-left-color:var(--accent);">
+      <span class="tag-pill tag-def">Practical caveat</span>
+      <p>The variance may grow very large by $T$. The prior $p_T$ must have
+      large variance, typically $\mathcal{N}(\mathbf{0},\sigma^2(T)I)$, making
+      initialization less straightforward than VP-type models.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 5 — VP: Forward SDE + Kernel -->
+<div class="slide dense">
+  <h2>Variance Preserving (VP) SDE</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    The VP SDE arises as the continuous limit of the DDPM Markov chain
+    $\mathbf{x}_i=\sqrt{1-\beta_i}\,\mathbf{x}_{i-1}+\sqrt{\beta_i}\,\mathbf{z}_{i-1}$.
+    As $N\to\infty$, with $\beta_i$ replaced by $\beta(t)$ and
+    $\bar\beta(t)\triangleq\int_0^t\beta(u)\,du$:
+  </p>
+
+  <div class="box-theorem" style="margin-top:0.45rem;">
+    <span class="tag-pill tag-thm">VP Forward SDE and Transition Kernel</span>
+    $$
+      d\mathbf{X}_t=-\tfrac{1}{2}\beta(t)\mathbf{X}_t\,dt+\sqrt{\beta(t)}\,d\mathbf{W}_t,
+      \qquad\mathbf{X}_0\sim p_{\mathrm{data}}.
+    $$
+    Affine family: $\mathbf{F}(t)=-\tfrac{\beta(t)}{2}I$, $\mathbf{c}=0$,
+    $\Phi(t,s)=e^{-(\bar\beta(t)-\bar\beta(s))/2}I$. Applying the general formulas:
+    $$
+      \mathbf{m}_t(\mathbf{x}_0)=\mathbf{x}_0\,e^{-\bar\beta(t)/2},
+      \qquad
+      \Sigma_t=\bigl(1-e^{-\bar\beta(t)}\bigr)I,
+    $$
+    $$
+      p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+      =\mathcal{N}\!\Bigl(\mathbf{x}_t;\,\mathbf{x}_0 e^{-\bar\beta(t)/2},\,
+      \bigl(1-e^{-\bar\beta(t)}\bigr)I\Bigr).
+    $$
+  </div>
+
+  <div class="box-def" style="margin-top:0.5rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+    <span class="tag-pill tag-com">Variance saturation</span>
+    <p>As $\bar\beta(t)\to\infty$, $\Sigma_t\to I$. The variance saturates at $1$ while
+    the signal decays exponentially, yielding $p_T\approx\mathcal{N}(\mathbf{0},I)$.
+    A typical schedule: $\beta(t)=\beta_{\min}+t(\beta_{\max}-\beta_{\min})$ with
+    $\beta_{\min}=0.1$, $\beta_{\max}=10$.</p>
+  </div>
+</div>
+
+
+<!-- SLIDE 6 — VP: Conditional Score + Reverse SDE -->
+<div class="slide dense">
+  <h2>VP SDE: Conditional Score and Reverse Process</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    Differentiating the Gaussian kernel with mean $\mathbf{x}_0 e^{-\bar\beta(t)/2}$
+    and covariance $(1-e^{-\bar\beta(t)})I$ gives the conditional score. With
+    $\mathbf{f}(\mathbf{x},t)=-\tfrac{1}{2}\beta(t)\mathbf{x}$ and
+    $G(t)G(t)^\top=\beta(t)I$, substituting into the reverse template:
+  </p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.45rem;">
+    <div class="box-def" style="background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm">Conditional Score</span>
+      $$
+        \nabla_{\mathbf{x}_t}\log p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+        =-\frac{\mathbf{x}_t-\mathbf{x}_0 e^{-\bar\beta(t)/2}}{1-e^{-\bar\beta(t)}}.
+      $$
+    </div>
+    <div class="box-theorem">
+      <span class="tag-pill tag-thm">VP Reverse SDE</span>
+      $$
+        d\mathbf{X}=\Bigl[-\tfrac{1}{2}\beta(t)\mathbf{X}
+        -\beta(t)\,\mathbf{s}_t(\mathbf{X})\Bigr]dt
+        +\sqrt{\beta(t)}\,d\bar{\mathbf{W}}.
+      $$
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.55rem;">
+    <div class="box-def" style="background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <span class="tag-pill tag-com">Two contributions to the reverse drift</span>
+      <p>$-\tfrac{1}{2}\beta(t)\mathbf{X}$ is the same linear restoring force as the
+      forward process, running backwards. $-\beta(t)\mathbf{s}_t(\mathbf{X})$ steers
+      trajectories toward regions of high data density.</p>
+    </div>
+    <div class="box-def" style="background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm">Standard Gaussian prior</span>
+      <p>Because $\Sigma_T\approx I$, the reverse process is initialized from
+      $\mathcal{N}(\mathbf{0},I)$: a key practical advantage over VE models,
+      where the initialization requires a distribution with large variance.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 7 — sub-VP SDE -->
+<div class="slide dense">
+  <h2>sub-Variance Preserving (sub-VP) SDE</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    The sub-VP variant keeps the same drift as VP but modifies the diffusion coefficient,
+    yielding better likelihood performance. With $\alpha(t)\triangleq 1-e^{-2\bar\beta(t)}$:
+  </p>
+
+  <div class="box-theorem">
+    <span class="tag-pill tag-thm">sub-VP Forward SDE</span>
+    $$
+      d\mathbf{X}_t=-\tfrac{1}{2}\beta(t)\mathbf{X}_t\,dt
+      +\sqrt{\beta(t)\bigl(1-e^{-2\bar\beta(t)}\bigr)}\;d\mathbf{W}_t.
+    $$
+    Same fundamental matrix as VP: $\Phi(t,s)=e^{-\bar\beta(t,s)/2}I$,
+    diffusion matrix $a(t)=\beta(t)\alpha(t)I$.
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.5rem;">
+    <div class="box-def">
+      <span class="tag-pill tag-def">Kernel and Score</span>
+      <p>Same mean as VP, covariance grows more slowly:</p>
+      $$
+        \mathbf{m}_t=\mathbf{x}_0\,e^{-\bar\beta(t)/2},
+        \quad
+        \Sigma_t=\bigl(1-e^{-\bar\beta(t)}\bigr)^2 I.
+      $$
+      $$
+        \nabla_{\mathbf{x}_t}\log p_{0,t}
+        =-\frac{\mathbf{x}_t-\mathbf{x}_0 e^{-\bar\beta(t)/2}}{(1-e^{-\bar\beta(t)})^2}.
+      $$
+    </div>
+    <div class="box-def" style="background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm">Reverse SDE</span>
+      $$
+        d\mathbf{X}=\Bigl[-\tfrac{1}{2}\beta(t)\mathbf{X}
+        -\beta(t)\alpha(t)\,\mathbf{s}_t(\mathbf{X})\Bigr]dt
+        +\sqrt{\beta(t)\alpha(t)}\,d\bar{\mathbf{W}}.
+      $$
+      <p style="margin-top:0.3rem;">Since $\alpha(t)<1$, both the score-weighted drift
+      and stochastic forcing are strictly smaller than in VP: the sub-VP reverse
+      process is less aggressive at each step.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 8 — LV: Design Requirement -->
+<div class="slide dense">
+  <h2>Linear Variance (LV) SDE: Design Requirement</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    Rather than postulating the SDE directly, we derive it from the requirement
+    $\Sigma_t=tI$. In the affine class with $\mathbf{F}(t)=fI$ and $G(t)=g(t)I$,
+    the Lyapunov equation $\Sigma'(t)=2f\Sigma(t)+g(t)^2I$ with $\Sigma(0)=0$
+    and imposing $\Sigma_t=tI$ gives $g(t)^2=1-2ft$.
+  </p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.5rem;">
+    <div class="box-def">
+      <span class="tag-pill tag-def">Why $f$ must be negative</span>
+      <p>$g(t)^2=1-2ft$ must remain positive on $[0,T]$:</p>
+      <p>$f>0$: $g(t)^2$ becomes negative in finite time. <strong>Impossible.</strong></p>
+      <p>$f=0$: $g(t)=1$, recovering $d\mathbf{X}_t=d\mathbf{W}_t$. No mean attenuation.</p>
+      <p>$f=-\theta$, $\theta>0$: $g(t)^2=1+2\theta t>0$ for all $t\ge0$.
+      <strong>Only valid choice.</strong></p>
+    </div>
+    <div class="box-theorem">
+      <span class="tag-pill tag-thm">LV Forward SDE</span>
+      $$
+        d\mathbf{X}_t=-\theta\mathbf{X}_t\,dt
+        +\sqrt{1+2\theta t}\;d\mathbf{W}_t,
+        \quad\theta>0,\quad t\in[0,1].
+      $$
+      <p style="margin-top:0.35rem;">$\theta$ controls only the mean decay rate.
+      The variance $\Sigma_t=tI$ is <strong>independent of $\theta$</strong>
+      for any valid choice. Affine family: $\mathbf{F}=-\theta I$,
+      $a(t)=(1+2\theta t)I$.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 9 — LV: Transition Kernel -->
+<div class="slide dense">
+  <h2>LV SDE: Transition Kernel</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    With $\mathbf{F}(t)=-\theta I$ constant, $\Phi(t,s)=e^{-\theta(t-s)}I$,
+    so the mean is $\mathbf{m}_t(\mathbf{x}_0)=e^{-\theta t}\mathbf{x}_0$.
+    For the covariance with $a(\tau)=(1+2\theta\tau)I$:
+  </p>
+  <p>
+    \[
+      \Sigma_t = I\int_0^t e^{-2\theta(t-\tau)}(1+2\theta\tau)\,d\tau
+      = \frac{e^{-2\theta t}}{2\theta}\,I\int_0^{2\theta t}e^u(1+u)\,du.
+    \]
+  </p>
+  <p>
+    Using the identity $e^u(1+u)=\frac{d}{du}(ue^u)$, the integral evaluates exactly:
+    $\int_0^{2\theta t}e^u(1+u)\,du=[ue^u]_0^{2\theta t}=2\theta t\,e^{2\theta t}$,
+    and therefore $\Sigma_t=tI$. $\checkmark$
+  </p>
+
+  <div class="box-theorem">
+    <span class="tag-pill tag-thm">Gaussian Transition Kernel</span>
+    $$
+      p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+      =\mathcal{N}\!\bigl(\mathbf{x}_t;\,e^{-\theta t}\mathbf{x}_0,\,tI\bigr).
+    $$
+    Conditional Score
+    $$
+      \nabla_{\mathbf{x}_t}\log p_{0,t}(\mathbf{x}_t\mid\mathbf{x}_0)
+      =-\frac{\mathbf{x}_t-e^{-\theta t}\mathbf{x}_0}{t}.
+    $$
+    <p style="margin-top:0.25rem;">
+    The score has the same structure as the Chapter 1 DSM target, with $t$ playing
+    the role of $\sigma^2$.</p>
+  </div>
+</div>
+
+
+<!-- SLIDE 10 — LV: Reverse + Properties -->
+<div class="slide dense">
+  <h2>LV SDE: Reverse Process and Properties</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    With $\mathbf{f}(\mathbf{x},t)=-\theta\mathbf{x}$ and
+    $G(t)G(t)^\top=(1+2\theta t)I$:
+  </p>
+
+  <div class="box-theorem">
+    <span class="tag-pill tag-thm">LV Reverse SDE</span>
+    $$
+      d\mathbf{X}=\Bigl[-\theta\mathbf{X}-(1+2\theta t)\,\mathbf{s}_t(\mathbf{X})\Bigr]dt
+      +\sqrt{1+2\theta t}\;d\bar{\mathbf{W}},
+      \qquad t:T\to0,\quad\mathbf{X}_T\sim p_T.
+    $$
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.55rem;">
+    <div class="box-def" style="background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <span class="tag-pill tag-com">Score influence grows toward $t=0$</span>
+      <p>The coefficient $(1+2\theta t)$ is largest at $t=T$ and smallest at $t=0$.
+      In the reverse direction ($T\to0$) it grows as $t$ decreases, matching the
+      increasing influence of fine-scale data structure near the data manifold.</p>
+    </div>
+    <div class="box-def" style="background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <span class="tag-pill tag-thm">Key Properties</span>
+      <p><strong>Linear variance:</strong> $\Sigma_t=tI$ independent of $\theta$.
+      Contrasts with VE (superlinear) and VP (saturating).</p>
+      <p style="margin-top:0.25rem;"><strong>Exponential mean decay:</strong>
+      $e^{-\theta t}\mathbf{x}_0$. Large $\theta$ ensures $p_T\approx\mathcal{N}(\mathbf{0},I)$.</p>
+      <p style="margin-top:0.25rem;"><strong>Uniform temporal scale:</strong>
+      probability flow ODE changes at approximately constant rate, enabling
+      larger step sizes and faster inference.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 11 — Summary Table -->
+<div class="slide dense">
+  <h2>Summary: Four SDE Families</h2>
+  <div class="accent-line"></div>
+
+  <p>All four families belong to the affine class and yield Gaussian kernels.
+  Key quantities collected for reference.</p>
+    <div style="overflow-x:auto; margin-top:0.65rem;">
+    <table style="width:100%; border-collapse:collapse; font-size:clamp(0.92rem,1.6vw,1.08rem);">
+        <thead>
+        <tr style="border-bottom:2px solid var(--border-light);">
+            <th style="text-align:left; padding:0.6rem 0.75rem; color:var(--text-dark); font-size:clamp(0.95rem,1.7vw,1.12rem);">SDE</th>
+            <th style="text-align:center; padding:0.6rem 0.75rem; color:var(--text-dark); font-size:clamp(0.95rem,1.7vw,1.12rem);">Drift $\mathbf{f}$</th>
+            <th style="text-align:center; padding:0.6rem 0.75rem; color:var(--text-dark); font-size:clamp(0.95rem,1.7vw,1.12rem);">Mean $\mathbf{m}_t(\mathbf{x}_0)$</th>
+            <th style="text-align:center; padding:0.6rem 0.75rem; color:var(--text-dark); font-size:clamp(0.95rem,1.7vw,1.12rem);">Covariance $\Sigma_t$</th>
+            <th style="text-align:center; padding:0.6rem 0.75rem; color:var(--text-dark); font-size:clamp(0.95rem,1.7vw,1.12rem);">Prior $p_T$</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="border-bottom:1px solid var(--border-light); background:#fdf8f5;">
+            <td style="padding:0.65rem 0.75rem;"><strong>VE</strong></td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathbf{0}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathbf{x}_0$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\sigma^2(t)I$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathcal{N}(\mathbf{0},\sigma^2(T)I)$</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border-light);">
+            <td style="padding:0.65rem 0.75rem;"><strong>VP</strong></td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$-\tfrac{\beta}{2}\mathbf{x}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathbf{x}_0\,e^{-\bar\beta/2}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$(1-e^{-\bar\beta})I$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathcal{N}(\mathbf{0},I)$</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border-light); background:#fdf8f5;">
+            <td style="padding:0.65rem 0.75rem;"><strong>sub-VP</strong></td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$-\tfrac{\beta}{2}\mathbf{x}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathbf{x}_0\,e^{-\bar\beta/2}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$(1-e^{-\bar\beta})^2 I$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathcal{N}(\mathbf{0},I)$</td>
+        </tr>
+        <tr>
+            <td style="padding:0.65rem 0.75rem;"><strong>LV</strong></td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$-\theta\mathbf{x}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathbf{x}_0\,e^{-\theta t}$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$tI$</td>
+            <td style="text-align:center; padding:0.65rem 0.75rem;">$\mathcal{N}(\mathbf{0},I)$</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+  <div class="box-def" style="margin-top:0.65rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+    <span class="tag-pill tag-com">Variance growth comparison</span>
+    <p>VE: superlinear (exponential schedule), rapid loss of structure.
+    VP: saturates at 1, standard Gaussian prior.
+    sub-VP: grows as $(1-e^{-\bar\beta})^2\le$ VP, slowest growth, best likelihood.
+    LV: grows as $t$, uniform rate, simplest temporal structure.</p>
+  </div>
+</div>
+
+
+<!-- SLIDE 12 — Visual Comparison -->
+<div class="slide dense">
+  <h2>Forward Perturbation: Visual Comparison</h2>
+  <div class="accent-line"></div>
+
+  <p>
+    Forward simulation on an MNIST digit normalized to $[-1,1]$, using $N=20$
+    steps with the same noise realization $\{\mathbf{z}_i\}$ across all SDEs.
+    Each perturbed image: $\mathbf{x}_{t_i}=\mathbf{m}_{t_i}(\mathbf{x}_0)+\Sigma_{t_i}^{1/2}\mathbf{z}_i$.
+  </p>
+
+  <div style="text-align:center; margin:0.45rem 0;">
+    <img src="images/forward_comparison.png" alt="Forward comparison"
+         style="width:100%; max-height:295px; object-fit:contain; border-radius:4px;">
+    <p style="font-size:0.67rem; color:var(--text-muted); margin:0.2rem 0 0;">
+      Rows (top to bottom): VE, VP, sub-VP, LV. Columns: $t=0\to1$.
+    </p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.45rem; margin-top:0.3rem;">
+    <div class="box-def" style="padding:0.4rem 0.5rem;">
+      <strong style="font-size:0.74rem;">VE</strong>
+      <p>Rapid loss of structure; variance grows exponentially.</p>
+    </div>
+    <div class="box-def" style="padding:0.4rem 0.5rem; background:rgba(237,244,255,0.5); border-left-color:var(--asagi);">
+      <strong style="font-size:0.74rem;">VP</strong>
+      <p>Gradual decay; faint outline at intermediate $t$.</p>
+    </div>
+    <div class="box-def" style="padding:0.4rem 0.5rem;">
+      <strong style="font-size:0.74rem;">sub-VP</strong>
+      <p>Same mean as VP, lower noise; signal persists longer.</p>
+    </div>
+    <div class="box-def" style="padding:0.4rem 0.5rem; background:rgba(255,252,237,0.5); border-left-color:var(--gold);">
+      <strong style="font-size:0.74rem;">LV</strong>
+      <p>Uniform progression; balanced blend of signal and noise throughout.</p>
+    </div>
+  </div>
+
+  <footer>
+    <a href="index.html">Back to Index</a>
+    &nbsp;&middot;&nbsp;<a href="chapter4.html">Chapter 4</a>
+  </footer>
+</div>
+</div><!-- /#stage -->
+</div><!-- /#scaler -->
+
+<script src="script.js"></script>
+</body>
+</html>
