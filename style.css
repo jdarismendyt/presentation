@@ -216,7 +216,7 @@ strong { color: var(--text-dark); font-weight: 600; }
   background: rgba(253,240,240,0.7);
   border-left: 3px solid var(--accent);
   border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   margin: 0.7rem 0;
   border-top: 1px solid rgba(200,41,43,0.12);
   border-right: 1px solid rgba(200,41,43,0.08);
@@ -224,13 +224,16 @@ strong { color: var(--text-dark); font-weight: 600; }
   font-size: clamp(0.78rem, 1.18vw, 0.88rem);
   overflow-x: auto;
 }
-
+.box-def mjx-container[display="true"]:last-child,
+.box-theorem mjx-container[display="true"]:last-child {
+  margin-bottom: 0 !important;
+}
 /* ── box-theorem: asagi blue ── */
 .box-theorem {
   background: rgba(237,244,255,0.8);
   border-left: 3px solid var(--asagi);
   border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   margin: 0.7rem 0;
   border-top: 1px solid rgba(74,111,165,0.12);
   border-right: 1px solid rgba(74,111,165,0.08);
